@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.chainsys.payrollapp.exceptions.DBExceptions;
 import com.chainsys.payrollapp.service.PayrollService;
 @WebServlet("/ResetPassServlet")
 
@@ -18,7 +19,13 @@ public class ResetPassServlet extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		int id = Integer.parseInt((String)request.getParameter("id"));
 		PayrollService ps = new PayrollService();
-		int rows = ps.unlockUserAccount(id);
+		int rows=0;
+		try {
+			rows = ps.unlockUserAccount(id);
+		} catch (DBExceptions e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if(rows==1)
 		{
 			String result = "Updated Successfully";

@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.omg.CORBA.Request;
-
 import com.chainsys.payrollapp.model.HrModel;
 import com.chainsys.payrollapp.service.PayrollService;
 
