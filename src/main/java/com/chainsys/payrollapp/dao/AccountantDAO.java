@@ -1,6 +1,5 @@
 package com.chainsys.payrollapp.dao;
 
-import java.util.ArrayList;
 
 public interface AccountantDAO 
 {

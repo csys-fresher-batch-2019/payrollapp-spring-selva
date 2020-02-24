@@ -1,14 +1,11 @@
 package com.chainsys.payrollapp.util;
 
-import java.io.FileNotFoundException;
 import com.chainsys.payrollapp.model.PaySlipModel;
 import com.itextpdf.kernel.pdf.PdfDocument; 
 import com.itextpdf.kernel.pdf.PdfWriter; 
 import com.itextpdf.layout.Document; 
 import com.itextpdf.layout.element.Table;
-//import java.io.OutputStream;
-//import java.io.FileOutputStream;
-//import java.io.File;
+
 
 public class GeneratePaySlip 
 {

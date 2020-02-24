@@ -24,7 +24,7 @@ public class SelectionServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
     //PrintWriter out = response.getWriter();
-    String desgination = request.getParameter("desg");
+    //String desgination = request.getParameter("desg");
     SelectIdUtil selectid = new SelectIdUtil();
     ArrayList<Integer> idlist = new ArrayList<>();
     try {
