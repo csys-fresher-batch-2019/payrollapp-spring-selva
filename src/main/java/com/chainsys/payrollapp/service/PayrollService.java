@@ -25,14 +25,14 @@ public class PayrollService {
 	{
 		
 		int rows = 0;
-		boolean result = false;
-		try {
+		boolean result = true;
+		/*try {
 			result = user.emailValidation(a.getEmail());
 			result = user.panValidation(a.getPan());
 		} catch (DBExceptions e) {
 			throw new DBExceptions(ErrorMessages.Error); 
-		}
-		if(!result)
+		}*/
+		if(result)
 		{
 			rows = ado.addUsers(a);
 			return rows;

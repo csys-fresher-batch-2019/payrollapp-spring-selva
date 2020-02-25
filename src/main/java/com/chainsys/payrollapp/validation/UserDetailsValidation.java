@@ -28,7 +28,7 @@ public class UserDetailsValidation {
 	public boolean panValidation(String pan) throws DBExceptions
 	{
 		boolean result = false;
-		String sql = "select pan_number from employee where pan = ?";
+		String sql = "select pan_number from employee where pan_number = ?";
 		try(Connection con = Connections.connect();
 				PreparedStatement pst = con.prepareStatement(sql);)
 		{
