@@ -24,7 +24,7 @@ public class RemoveDetailServlet extends HttpServlet {
 		} catch (DBExceptions e) {
 			e.printStackTrace();
 		}
-		if(rows==1)
+		if(rows > 0)
 		{
 			String result = "Removed Successfully";
 			response.sendRedirect("Admin.jsp?result="+result);

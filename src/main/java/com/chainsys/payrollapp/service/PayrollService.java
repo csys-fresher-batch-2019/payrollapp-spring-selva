@@ -48,10 +48,11 @@ public class PayrollService {
 		boolean result = false;
 		try {
 			result = user.idValidation(id);
+			System.out.println(result);
 		} catch (DBExceptions e) {
 			throw new DBExceptions(ErrorMessages.Error);
 		}
-		if(!result)
+		if(result)
 		{
 			rows = ado.removeUsers(id);
 			return rows;

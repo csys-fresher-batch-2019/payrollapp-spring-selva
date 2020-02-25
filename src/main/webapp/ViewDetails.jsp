@@ -15,12 +15,12 @@
  			 	background-repeat: no-repeat;
 			}
 			.container{
-				width:70%;
+				width:80%;
 				height:auto;
  			 	display: block;
  			 	 background-color: #EFEAEA;
   				border-radius: 15px;
-  				margin-left: 200px;
+  				margin-left: 150px;
 				margin-top: 50px;
 				}
 				th
@@ -42,6 +42,7 @@
 			<tr>
 				<th>Employee Id</th>
 				<th>Employee name</th>
+				<th>Designation</th>
 				<th>Email Address</th>
 				<th>Pan Number</th>
 			</tr>
@@ -49,6 +50,7 @@
 			<tr>
 				<td><%=h.getEmpId()%></td>	
 				<td><%=h.getEmpName() %></td>
+				<td><%=h.getDesignation()%></td>
 				<td><%=h.getEmail() %></td>
 				<td><%=h.getPan()%></td>
 			</tr>

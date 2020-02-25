@@ -192,6 +192,7 @@ public class AdminOperations implements AdminDAO
 			ad.setEmpName(rs.getString("emp_name"));
 			ad.setEmail(rs.getString("email"));
 			ad.setPan(rs.getString("pan_number"));
+			ad.setDesignation(rs.getString("designation"));
 			list.add(ad);
 		}
 		return list;

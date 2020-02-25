@@ -23,7 +23,7 @@ public class PaySlip
 			while(prs.next()) 
 			{
 				int id = prs.getInt("emp_id");
-				String sql = "select emp_id , emp_name , basepay , performance_grade ,"+
+				String sql = "select e.emp_id , emp_name , basepay , performance_grade ,"+
 				" salary_increment , allowance , leaves_taken , loss_of_pay ,"+
 				" food_deduction , cab_deduction , provident_fund ,"+
 				" salary_to_be_credited from deductions d"+
