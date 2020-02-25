@@ -27,7 +27,7 @@ public class CalcLopServlet extends HttpServlet {
 		}
 		if(rows>0)
 		{
-			String result = "Calculated";
+			String result = "Calculated!";
 			response.sendRedirect("Admin.jsp?result="+result);
 		}
 		else

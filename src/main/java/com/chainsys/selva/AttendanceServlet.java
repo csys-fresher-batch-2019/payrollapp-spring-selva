@@ -26,7 +26,7 @@ public class AttendanceServlet extends HttpServlet {
 			rows = ps.markAttandence();
 			if(rows>0)
 			{
-				String result = "Done";
+				String result = "Done!";
 				response.sendRedirect("Accountant.jsp?result="+result);
 			}
 			else

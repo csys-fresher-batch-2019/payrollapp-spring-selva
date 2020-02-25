@@ -21,7 +21,7 @@
  			 	background-repeat: no-repeat;
 			}
 			.container{
-				width:70%;
+				width:67%;
 				height:auto;
  			 	display: block;
  			 	 background-color: #EFEAEA;

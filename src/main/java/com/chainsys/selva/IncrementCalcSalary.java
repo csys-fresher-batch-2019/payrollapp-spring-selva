@@ -25,7 +25,7 @@ public class IncrementCalcSalary extends HttpServlet {
 			rows = ps.calculateIncrement();
 			if(rows > 0)
 			{
-				String result = "Calculated";
+				String result = "Calculated!";
 				response.sendRedirect("Accountant.jsp?result="+result);
 			}
 			else
