@@ -1,0 +1,9 @@
+
+---
+applications:
+- name: api.payrollapp.in
+  buildpack: java_buildpack
+  memory: 1G
+  instances: 1
+  path: target/taskpayrollapp-0.0.1-SNAPSHOT.war
+ 
