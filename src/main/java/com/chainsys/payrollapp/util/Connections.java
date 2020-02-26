@@ -14,7 +14,7 @@ public class Connections
 	{
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			//return DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "oracle");
+			//return DriverManager.getConnection("jdbc:oracle:thin:@192.168.56.230:1521:XE", "system", "oracle");
 			return DriverManager.getConnection("jdbc:oracle:thin:@ 13.235.147.120:1521:XE", "selva", "selva");
 	} 
 		catch (Exception e) 

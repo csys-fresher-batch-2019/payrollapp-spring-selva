@@ -17,6 +17,11 @@ function validateForm() {
 	    alert("Username must be filled out");
 	    return false;
 	  }
+	  if(isNaN(x))
+		{
+			alert('Not a Valid Id');
+			return false;
+		}
 	  if (y == "") {
 		    alert("Password must be filled out");
 		    return false;
