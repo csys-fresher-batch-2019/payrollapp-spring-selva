@@ -7,12 +7,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.chainsys.taskpayrollapp.service.PayrollService;
 
 @WebServlet("/AddbasePayServlet")
 public class AddbasePayServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	@Autowired
+	PayrollService ps;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -21,7 +24,6 @@ public class AddbasePayServlet extends HttpServlet {
 		String pay = request.getParameter("pay");
 		int eid = Integer.parseInt(id);
 		int epay = Integer.parseInt(pay);
-		PayrollService ps = new PayrollService();
 		try {
 			int rows = ps.addBasepay(eid, epay);
 			if(rows==1)
