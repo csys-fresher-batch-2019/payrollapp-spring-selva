@@ -1,6 +1,6 @@
 package com.chainsys.taskpayrollapp.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +15,19 @@ import com.chainsys.taskpayrollapp.util.GetDataUtil;
 public class DesignationController {
 
 	@GetMapping("/displaymail")
-	public ArrayList<String> getEmail() throws Exception {
+	public List<String> getEmail() throws Exception {
 		GetDataUtil get = new GetDataUtil();
 		return get.getAllEmail();
 	}
 
 	@GetMapping("/displaypan")
-	public ArrayList<String> getPan() throws Exception {
+	public List<String> getPan() throws Exception {
 		GetDataUtil get = new GetDataUtil();
 		return get.getAllPan();
 	}
 
 	@GetMapping("/displayid")
-	public ArrayList<Integer> getId() throws Exception {
+	public List<Integer> getId() throws Exception {
 		GetDataUtil get = new GetDataUtil();
 		return get.getAllId();
 	}

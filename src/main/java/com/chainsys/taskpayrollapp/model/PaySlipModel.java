@@ -14,114 +14,111 @@ public class PaySlipModel {
 	private int providentFund;
 	private int salaryToBeCredited;
 
-	public int setId(int id)
-	{
+	public int setId(int id) {
 		this.empId = id;
 		return empId;
 	}
-	public int getId()
-	{
+
+	public int getId() {
 		return empId;
 	}
-	public String setName(String name)
-	{
+
+	public String setName(String name) {
 		this.empName = name;
 		return empName;
 	}
-	public String getName()
-	{
+
+	public String getName() {
 		return empName;
 	}
-	public int setBasePay(int BasePay)
-	{
+
+	public int setBasePay(int BasePay) {
 		this.basePay = BasePay;
 		return basePay;
 	}
 
-	public int getSalary()
-	{
+	public int getSalary() {
 		return basePay;
 	}
-	public int setPerformanceGrade(int grade)
-	{
+
+	public int setPerformanceGrade(int grade) {
 		this.performanceGrade = grade;
 		return performanceGrade;
 	}
-	public int getPerformanceGrade()
-	{
+
+	public int getPerformanceGrade() {
 		return performanceGrade;
 	}
-	public int setSalaryIncrement(int increment)
-	{
+
+	public int setSalaryIncrement(int increment) {
 		this.salaryIncrement = increment;
 		return salaryIncrement;
 	}
-	public int getSalaryIncrement()
-	{
+
+	public int getSalaryIncrement() {
 		return salaryIncrement;
 	}
-	public int setAllowance(int allowance)
-	{
+
+	public int setAllowance(int allowance) {
 		this.allowance = allowance;
 		return allowance;
 	}
-	public int getAllowance()
-	{
+
+	public int getAllowance() {
 		return allowance;
 	}
-	public int setLeavesTaken(int leaves)
-	{
+
+	public int setLeavesTaken(int leaves) {
 		this.leavesTaken = leaves;
 		return leavesTaken;
 	}
-	public int getLeavesTaken()
-	{
+
+	public int getLeavesTaken() {
 		return leavesTaken;
 	}
-	public int setLossOfPay(int lop)
-	{
+
+	public int setLossOfPay(int lop) {
 		this.lossOfPay = lop;
 		return lossOfPay;
 	}
 
-	public int getLossOfPay()
-	{
+	public int getLossOfPay() {
 		return lossOfPay;
 	}
-	public int setFoodDeduction(int food)
-	{
+
+	public int setFoodDeduction(int food) {
 		this.foodDeduction = food;
 		return foodDeduction;
 	}
-	public int getFoodDeduction()
-	{
+
+	public int getFoodDeduction() {
 		return foodDeduction;
 	}
-	public int setCabDeduction(int cab)
-	{
+
+	public int setCabDeduction(int cab) {
 		this.cabDeduction = cab;
 		return cabDeduction;
 	}
-	public int getCabDeduction()
-	{
+
+	public int getCabDeduction() {
 		return cabDeduction;
 	}
-	public int setProvidentFund(int pf)
-	{
+
+	public int setProvidentFund(int pf) {
 		this.providentFund = pf;
 		return providentFund;
 	}
-	public int getProvidentFund()
-	{
+
+	public int getProvidentFund() {
 		return providentFund;
 	}
-	public int setSalaryToBeCredited(int salary)
-	{
+
+	public int setSalaryToBeCredited(int salary) {
 		this.salaryToBeCredited = salary;
 		return salaryToBeCredited;
 	}
-	public int getSalaryToBeCredited()
-	{
+
+	public int getSalaryToBeCredited() {
 		return salaryToBeCredited;
 	}
 

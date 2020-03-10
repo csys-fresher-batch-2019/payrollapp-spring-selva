@@ -1,7 +1,6 @@
 package com.chainsys.taskpayrollapp.servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.chainsys.taskpayrollapp.dao.daoimplements.Login;
-import com.chainsys.taskpayrollapp.exceptions.DBExceptions;
+import com.chainsys.taskpayrollapp.dao.daoimplements.LoginDAOImpl;
+import com.chainsys.taskpayrollapp.exceptions.DBException;
 
 
 @WebServlet("/LoginServlet")
@@ -37,7 +36,7 @@ public class LoginServlet extends HttpServlet {
 			String resu = "wrong password";
 			String result = "Not a user";
 			try {
-				desg = Login.login(id, password);
+				desg = LoginDAOImpl.login(id, password);
 				HttpSession sess = request.getSession();
 				sess.setAttribute("desg", desg);
 				HttpSession session = request.getSession();
@@ -86,9 +85,9 @@ public class LoginServlet extends HttpServlet {
 							break;
 					}
 				}
-			} catch (ClassNotFoundException | SQLException | DBExceptions e) {
+			} catch (DBException e) {
 				e.printStackTrace();
-			}
+			} 
 		}
 	}
 

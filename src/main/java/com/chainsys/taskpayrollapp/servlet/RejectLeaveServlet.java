@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.chainsys.taskpayrollapp.exceptions.DBException;
 import com.chainsys.taskpayrollapp.service.PayrollService;
 
 @WebServlet("/RejectLeaveServlet")
@@ -21,7 +22,11 @@ public class RejectLeaveServlet extends HttpServlet {
 		String id = request.getParameter("Reject");
 		int eid = Integer.parseInt(id);
 		PayrollService ps = new PayrollService();
-		rows = ps.RejectLeave(eid);
+		try {
+			rows = ps.RejectLeave(eid);
+		} catch (DBException e) {
+			e.printStackTrace();
+		}
 		if(rows > 0)
 		{
 			String result = "Updated";

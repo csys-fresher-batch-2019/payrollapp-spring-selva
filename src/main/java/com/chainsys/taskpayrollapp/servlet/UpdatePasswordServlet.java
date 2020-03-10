@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.chainsys.taskpayrollapp.dao.daoimplements.Login;
-import com.chainsys.taskpayrollapp.exceptions.DBExceptions;
+import com.chainsys.taskpayrollapp.dao.daoimplements.LoginDAOImpl;
+import com.chainsys.taskpayrollapp.exceptions.DBException;
 @WebServlet("/UpdatePasswordServlet")
 
 public class UpdatePasswordServlet extends HttpServlet {
@@ -25,8 +25,8 @@ public class UpdatePasswordServlet extends HttpServlet {
 		int EmpId = (int)session.getAttribute("value");
 		int rows=0;
 		try {
-			rows = Login.updatePassword(pwd,psd, EmpId);
-		} catch (DBExceptions e) {
+			rows = LoginDAOImpl.updatePassword(pwd,psd, EmpId);
+		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

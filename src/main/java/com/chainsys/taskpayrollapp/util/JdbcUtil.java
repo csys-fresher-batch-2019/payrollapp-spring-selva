@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.chainsys.taskpayrollapp.exceptions.DBExceptions;
+import com.chainsys.taskpayrollapp.exceptions.DBException;
 public class JdbcUtil {
 	
-	public static int executeUpdate(String sql, Object... params) throws DBExceptions  {
+	public static int executeUpdate(String sql, Object... params) throws DBException  {
 		int rows =0;
 		try(Connection con = Connections.connect();
 				PreparedStatement pst = con.prepareStatement(sql);)
@@ -21,7 +21,7 @@ public class JdbcUtil {
 		}
 		catch(SQLException e)
 		{
-			throw new DBExceptions(ErrorMessages.Error);
+			throw new DBException(ErrorMessages.Error);
 		}
 		return rows;
 	}

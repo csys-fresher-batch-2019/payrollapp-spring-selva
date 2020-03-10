@@ -5,20 +5,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
-import com.chainsys.taskpayrollapp.exceptions.DBExceptions;
+import com.chainsys.taskpayrollapp.exceptions.DBException;
 
 public class GetDataUtil {
 	public static final String empId = "emp_id";
 	public static final String emailid = "email";
 	public static final String pan_number = "pan_number";
 
-	public ArrayList<String> getAllEmail() throws Exception {
+	public List<String> getAllEmail() throws DBException {
 		String sql = "select email from employee";
 		Connection con = null;
 		PreparedStatement pst = null;
 		ResultSet result = null;
-		ArrayList<String> emails = new ArrayList<>();
+		List<String> emails = new ArrayList<>();
 		try {
 			con = Connections.connect();
 			pst = con.prepareStatement(sql);
@@ -27,21 +28,25 @@ public class GetDataUtil {
 				emails.add(result.getString(emailid));
 			}
 		} catch (SQLException e) {
-			throw new DBExceptions(ErrorMessages.Error);
+			throw new DBException(ErrorMessages.Error);
 		} finally {
-			con.close();
-			pst.close();
-			result.close();
+			try {
+				result.close();
+				pst.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return emails;
 	}
 
-	public ArrayList<String> getAllPan() throws Exception {
+	public List<String> getAllPan() throws DBException {
 		String sql = "select pan_number from employee";
 		Connection con = null;
 		PreparedStatement pst = null;
 		ResultSet result = null;
-		ArrayList<String> panNumber = new ArrayList<>();
+		List<String> panNumber = new ArrayList<>();
 		try {
 			con = Connections.connect();
 			pst = con.prepareStatement(sql);
@@ -49,22 +54,26 @@ public class GetDataUtil {
 			while (result.next()) {
 				panNumber.add(result.getString(pan_number));
 			}
-		} catch (Exception e) {
-			throw new DBExceptions(ErrorMessages.Error);
+		} catch (SQLException e) {
+			throw new DBException(ErrorMessages.Error);
 		} finally {
-			con.close();
-			pst.close();
-			result.close();
+			try {
+				result.close();
+				pst.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return panNumber;
 	}
 
-	public ArrayList<Integer> getAllId() throws Exception {
+	public List<Integer> getAllId() throws DBException {
 		String sql = "select emp_id from employee";
 		Connection con = null;
 		PreparedStatement pst = null;
 		ResultSet result = null;
-		ArrayList<Integer> ids = new ArrayList<>();
+		List<Integer> ids = new ArrayList<>();
 		try {
 			con = Connections.connect();
 			pst = con.prepareStatement(sql);
@@ -72,12 +81,17 @@ public class GetDataUtil {
 			while (result.next()) {
 				ids.add(result.getInt(empId));
 			}
-		} catch (Exception e) {
-			throw new DBExceptions(ErrorMessages.Error);
+		} catch (SQLException e) {
+			throw new DBException(ErrorMessages.Error);
 		} finally {
-			con.close();
-			pst.close();
-			result.close();
+			try {
+				result.close();
+				pst.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
 		}
 		return ids;
 	}

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.chainsys.taskpayrollapp.exceptions.DBException;
 import com.chainsys.taskpayrollapp.service.PayrollService;
 @WebServlet("/SwipeServlet")
 
@@ -26,7 +27,12 @@ public class SwipeServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		int EmpId = (int)session.getAttribute("value");
 		System.out.println(EmpId);
-		int rows = ps.swipe(EmpId);
+		int rows=0;
+		try {
+			rows = ps.swipe(EmpId);
+		} catch (DBException e) {
+			e.printStackTrace();
+		}
 		if(rows==1)
 		{
 			String result = "HI "+EmpId;

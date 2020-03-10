@@ -2,6 +2,7 @@ package com.chainsys.taskpayrollapp.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,7 +26,7 @@ public class DisplayServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		ArrayList<AdminModel> list = new ArrayList<>();
+		List<AdminModel> list = new ArrayList<>();
 		try {
 			list = ps.display();
 			request.setAttribute("EmployeeDetails", list);

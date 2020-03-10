@@ -3,16 +3,17 @@ package com.chainsys.taskpayrollapp.dao.daoimplements;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.sql.SQLException;
+import java.util.List;
 
-import com.chainsys.taskpayrollapp.exceptions.DBExceptions;
+import com.chainsys.taskpayrollapp.exceptions.DBException;
 import com.chainsys.taskpayrollapp.model.PaySlipModel;
 import com.chainsys.taskpayrollapp.util.Connections;
 import com.chainsys.taskpayrollapp.util.GeneratePaySlip;
 import com.chainsys.taskpayrollapp.util.GetDataUtil;
 
-public class PaySlip {
-	public int EmployeeDetails() throws Exception {
+public class PaySlipDAOImpl {
+	public int EmployeeDetails() throws DBException {
 		GetDataUtil get = new GetDataUtil();
 		GeneratePaySlip gen = new GeneratePaySlip();
 		int workDone = 0;
@@ -25,7 +26,7 @@ public class PaySlip {
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		try {
-			ArrayList<Integer> ids = get.getAllId();
+			List<Integer> ids = get.getAllId();
 			con = Connections.connect();
 			for (int id : ids) {
 				pst = con.prepareStatement(sql);
@@ -52,11 +53,15 @@ public class PaySlip {
 				}
 			}
 		} catch (Exception e) {
-			throw new DBExceptions(e.toString());
+			throw new DBException(e.toString());
 		} finally {
-			con.close();
-			pst.close();
-			rs.close();
+			try {
+				rs.close();
+				pst.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return workDone;
 	}

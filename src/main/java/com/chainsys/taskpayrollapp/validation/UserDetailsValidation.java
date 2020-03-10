@@ -1,51 +1,37 @@
 package com.chainsys.taskpayrollapp.validation;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
-import com.chainsys.taskpayrollapp.exceptions.DBExceptions;
-import com.chainsys.taskpayrollapp.util.ErrorMessages;
+import com.chainsys.taskpayrollapp.exceptions.DBException;
 import com.chainsys.taskpayrollapp.util.GetDataUtil;
 
 public class UserDetailsValidation {
 
 	static GetDataUtil data = new GetDataUtil();
 
-	public boolean emailValidation(String email) throws Exception {
+	public boolean emailValidation(String email) throws DBException {
 		boolean check = true;
-		try {
-			ArrayList<String> emails = data.getAllEmail();
-			if (emails.contains(email)) {
-				check = false;
-			}
-		} catch (SQLException e) {
-			throw new DBExceptions(ErrorMessages.Error);
+		List<String> emails = data.getAllEmail();
+		if (emails.contains(email)) {
+			check = false;
 		}
 		return check;
 	}
 
-	public boolean panValidation(String pan) throws DBExceptions, SQLException {
+	public boolean panValidation(String pan) throws DBException {
 		boolean check = true;
-		try {
-			ArrayList<String> pans = data.getAllPan();
-			if (pans.contains(pan)) {
-				check = false;
-			}
-		} catch (Exception e) {
-			throw new DBExceptions(ErrorMessages.Error);
+		List<String> pans = data.getAllPan();
+		if (pans.contains(pan)) {
+			check = false;
 		}
 		return check;
 	}
 
-	public boolean idValidation(int id) throws DBExceptions {
+	public boolean idValidation(int id) throws DBException {
 		boolean check = false;
-		try {
-			ArrayList<Integer> ids = data.getAllId();
-			if (ids.contains(id)) {
-				check = true;
-			}
-		} catch (Exception e) {
-			throw new DBExceptions(ErrorMessages.Error);
+		List<Integer> ids = data.getAllId();
+		if (ids.contains(id)) {
+			check = true;
 		}
 		return check;
 	}
