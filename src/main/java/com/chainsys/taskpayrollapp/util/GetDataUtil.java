@@ -12,87 +12,69 @@ public class GetDataUtil {
 	public static final String empId = "emp_id";
 	public static final String emailid = "email";
 	public static final String pan_number = "pan_number";
-	public ArrayList<String> getAllEmail() throws DBExceptions, SQLException
-	{
+
+	public ArrayList<String> getAllEmail() throws Exception {
 		String sql = "select email from employee";
 		Connection con = null;
 		PreparedStatement pst = null;
 		ResultSet result = null;
 		ArrayList<String> emails = new ArrayList<>();
-		try		
-		{
+		try {
 			con = Connections.connect();
 			pst = con.prepareStatement(sql);
 			result = pst.executeQuery();
-			while(result.next())
-			{
+			while (result.next()) {
 				emails.add(result.getString(emailid));
 			}
-		}
-		catch(Exception e)
-		{
+		} catch (SQLException e) {
 			throw new DBExceptions(ErrorMessages.Error);
-		}
-		finally
-		{
+		} finally {
 			con.close();
 			pst.close();
 			result.close();
 		}
 		return emails;
 	}
-	public ArrayList<String> getAllPan() throws DBExceptions, SQLException
-	{
+
+	public ArrayList<String> getAllPan() throws Exception {
 		String sql = "select pan_number from employee";
 		Connection con = null;
 		PreparedStatement pst = null;
 		ResultSet result = null;
 		ArrayList<String> panNumber = new ArrayList<>();
-		try		
-		{
+		try {
 			con = Connections.connect();
 			pst = con.prepareStatement(sql);
 			result = pst.executeQuery();
-			while(result.next())
-			{
+			while (result.next()) {
 				panNumber.add(result.getString(pan_number));
 			}
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			throw new DBExceptions(ErrorMessages.Error);
-		}
-		finally
-		{
+		} finally {
 			con.close();
 			pst.close();
 			result.close();
 		}
 		return panNumber;
 	}
-	public ArrayList<Integer> getAllId() throws DBExceptions, SQLException
-	{
+
+	public ArrayList<Integer> getAllId() throws Exception {
 		String sql = "select emp_id from employee";
 		Connection con = null;
 		PreparedStatement pst = null;
 		ResultSet result = null;
 		ArrayList<Integer> ids = new ArrayList<>();
-		try		
-		{
+		try {
 			con = Connections.connect();
 			pst = con.prepareStatement(sql);
 			result = pst.executeQuery();
-			while(result.next())
-			{
+			while (result.next()) {
 				ids.add(result.getInt(empId));
 			}
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			throw new DBExceptions(ErrorMessages.Error);
-		}
-		finally
-		{
+		} finally {
 			con.close();
 			pst.close();
 			result.close();

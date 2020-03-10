@@ -12,5 +12,5 @@ public interface HrDAO
 	int addGrade(int grade,int id) throws DBExceptions;
 	int addBasepay(int basepay,int id) throws DBExceptions;
 	int addCredit(int allowance,int id)throws DBExceptions;
-	ArrayList<HrModel> viewLeaveApplication()throws DBExceptions;
+	ArrayList<HrModel> viewLeaveApplication()throws Exception;
 }

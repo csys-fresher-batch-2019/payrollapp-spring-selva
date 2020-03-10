@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.chainsys.taskpayrollapp.dao.daoimplements.AdminOperations;
-import com.chainsys.taskpayrollapp.dao.daoimplements.AccountantOperations;
-import com.chainsys.taskpayrollapp.dao.daoimplements.HrOperations;
+import com.chainsys.taskpayrollapp.dao.daoimplements.AdminDAOImpl;
+import com.chainsys.taskpayrollapp.dao.daoimplements.AccountantDAOImpl;
+import com.chainsys.taskpayrollapp.dao.daoimplements.HrDAOImpl;
 import com.chainsys.taskpayrollapp.dao.daoimplements.LogMonitor;
 import com.chainsys.taskpayrollapp.dao.daoimplements.LeaveApplication;
 import com.chainsys.taskpayrollapp.dao.*;
@@ -16,22 +16,24 @@ import com.chainsys.taskpayrollapp.exceptions.DBExceptions;
 import com.chainsys.taskpayrollapp.model.AdminModel;
 import com.chainsys.taskpayrollapp.model.HrModel;
 import com.chainsys.taskpayrollapp.model.LeaveApplicationModel;
+import com.chainsys.taskpayrollapp.model.LeaveApplicationModel.LeaveStatus;
 import com.chainsys.taskpayrollapp.util.ErrorMessages;
 import com.chainsys.taskpayrollapp.validation.UserDetailsValidation;
 
 @Service 
 public class PayrollService {
 	@Autowired
-	private AdminOperations ado;
-	private AccountantDAO aco = new AccountantOperations(); 
+	private AdminDAOImpl ado;
+	private AccountantDAO aco = new AccountantDAOImpl(); 
 	@Autowired
-	private HrOperations hdo;
+	private HrDAOImpl hdo;
 	private LogMonitor lm = new LogMonitor();
-	private LeaveApplication leave = new LeaveApplication();
+	@Autowired
+	private LeaveApplication leave;
 	private UserDetailsValidation user = new UserDetailsValidation();;
 	
 	//Admin Services
-	public int addEmployeeDetails(AdminModel a) throws DBExceptions, SQLException
+	public int addEmployeeDetails(AdminModel a) throws Exception
 	{
 		int rows = 0;
 		boolean result = true;
@@ -149,7 +151,7 @@ public class PayrollService {
 		int rows = hdo.addCredit(allowance,id);
 		return rows;
 	}
-	public ArrayList<HrModel> viewLeaveApplication() throws DBExceptions 
+	public ArrayList<HrModel> viewLeaveApplication() throws Exception 
 	{
 		ArrayList<HrModel> list = new ArrayList<HrModel>(); 
 		list = hdo.viewLeaveApplication();
@@ -179,11 +181,24 @@ public class PayrollService {
 	
 	//Leave
 	
-	public int acceptLeave(int id)
+	public int acceptLeave(int id) throws DBExceptions
 	{
 		int rows = 0;
-		rows = LeaveApplication.Status(id,1);
-		return rows;
+		boolean result = false;
+		String status = "";
+		status = LeaveStatus.APPROVED.toString();
+		rows = leave.leaveStatusUpdate(id,1);
+		rows = leave.leaveCountUpdate(id);
+		result = leave.sendMail(id, status);
+		if(result)
+		{
+			return rows;
+		}
+		else
+		{
+			return 0;
+		}
+			
 	}
 	public int RejectLeave(int id)
 	{

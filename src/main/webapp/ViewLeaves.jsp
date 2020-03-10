@@ -8,11 +8,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<title>View Leaves</title>
-		<script>
-		function myFunction() {
-			   document.getElementsByClassName("btn").disabled = true;
-			}
-		</script>
+		
 		<style type="text/css">
 			body
 			{
@@ -58,8 +54,9 @@
 				<td><%=h.getFromDate() %></td>
 				<td><%=h.getToDate() %></td>
 				<td><%=h.getReason()%></td>
-				<td><button name = "Accept" class="btn" onclick="myFunction()" value=<%=h.getID() %> style="background-color:#EFEAEA;color:#24C352;"><i class="fa fa-check"></i> </button></td>
-				<td><button name = "Reject" class="btn" value=<%=h.getID() %> formaction = "RejectLeaveServlet" style="background-color:#EFEAEA;color:#DC3006;"><i class="fa fa-close"></i> </button></td>
+				
+				<td><button  name="Accept" id ="btn" onclick="myFunction(<%=h.getID()%>)" value=<%=h.getID() %> style="background-color:#EFEAEA;color:#24C352;"><i class="fa fa-check"></i> </button></td>
+				<td><button  name="Reject" id ="btn1" onclick="myFunctions()" value=<%=h.getID() %> formaction = "RejectLeaveServlet" style="background-color:#EFEAEA;color:#DC3006;"><i class="fa fa-close"></i> </button></td>
 			</tr>
 				<%}}else{ %>
 					<center><h3>No Leave Applications</h3></center>
@@ -67,5 +64,17 @@
 		</table>
 		</form>
 		</div>
+		
+		
+		<script>
+		function myFunction() {
+			console.log("button Clicked");
+			   document.getElementById("btn").disabled = true;
+			}
+		function myFunctions() {
+			console.log("button Clicked");
+			   document.getElementById("btn").disabled = true;
+			}
+		</script>
 	</body>
 </html>

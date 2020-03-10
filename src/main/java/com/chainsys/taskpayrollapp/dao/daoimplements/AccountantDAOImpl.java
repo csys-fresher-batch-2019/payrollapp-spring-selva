@@ -11,7 +11,7 @@ import com.chainsys.taskpayrollapp.util.Connections;
 import com.chainsys.taskpayrollapp.util.ErrorMessages;
 import com.chainsys.taskpayrollapp.util.GetDataUtil;
 
-public class AccountantOperations implements AccountantDAO {
+public class AccountantDAOImpl implements AccountantDAO {
 	/**
 	 * PF calculation by using two table(employee,deduction) data and update the PF
 	 * column in deduction table
@@ -100,7 +100,7 @@ public class AccountantOperations implements AccountantDAO {
 				statement.setInt(1, i);
 				rows = statement.executeUpdate();
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			throw new DBExceptions(e.toString());
 		} finally {
 			con.close();

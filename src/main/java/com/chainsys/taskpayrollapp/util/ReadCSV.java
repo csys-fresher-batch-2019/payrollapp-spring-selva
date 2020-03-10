@@ -7,14 +7,14 @@ import java.io.Reader;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
-import com.chainsys.taskpayrollapp.dao.daoimplements.AdminOperations;
+import com.chainsys.taskpayrollapp.dao.daoimplements.AdminDAOImpl;
 import com.chainsys.taskpayrollapp.exceptions.DBExceptions;
 import com.chainsys.taskpayrollapp.model.AdminModel;
 
 public class ReadCSV {
 
 	public static void main(String[] args) throws IOException, DBExceptions {
-		AdminOperations ao = new AdminOperations();
+		AdminDAOImpl ao = new AdminDAOImpl();
 		 Reader in = new FileReader("D:\\resource\\Book.csv");
         Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader().parse(in);
         for (CSVRecord record : records) {

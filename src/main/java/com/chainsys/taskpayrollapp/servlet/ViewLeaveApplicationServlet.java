@@ -31,6 +31,9 @@ public class ViewLeaveApplicationServlet extends HttpServlet {
 		} catch (DBExceptions e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		request.setAttribute("LeaveDetails", list);
 		RequestDispatcher rd = request.getRequestDispatcher("ViewLeaves.jsp");

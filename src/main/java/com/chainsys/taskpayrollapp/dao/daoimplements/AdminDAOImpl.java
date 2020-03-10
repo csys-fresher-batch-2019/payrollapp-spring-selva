@@ -22,7 +22,7 @@ import com.chainsys.taskpayrollapp.util.ErrorMessages;
 import com.chainsys.taskpayrollapp.util.GetDataUtil;
 
 @Repository
-public class AdminOperations implements AdminDAO {
+public class AdminDAOImpl implements AdminDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -156,7 +156,7 @@ public class AdminOperations implements AdminDAO {
 	public ArrayList<AdminModel> viewDetails() throws Exception {
 		Connection con = null;
 		ArrayList<AdminModel> list = new ArrayList<>();
-		String sql = "select * from employee";
+		String sql = "select emp_id,emp_name,email,pan_number,designation from employee";
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		try {
