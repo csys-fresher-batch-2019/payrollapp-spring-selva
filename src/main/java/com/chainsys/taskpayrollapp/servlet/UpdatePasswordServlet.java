@@ -8,29 +8,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.chainsys.taskpayrollapp.dao.daoimplements.LoginDAOImpl;
 import com.chainsys.taskpayrollapp.exceptions.DBException;
+import com.chainsys.taskpayrollapp.service.PayrollService;
+
 @WebServlet("/UpdatePasswordServlet")
 
 public class UpdatePasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
- 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	
+	@Autowired
+	LoginDAOImpl loginObject;
+	@Autowired
+	PayrollService service;
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		String pwd = request.getParameter("npassword");
 		String psd = request.getParameter("cpassword");
 		HttpSession session = request.getSession();
-		int EmpId = (int)session.getAttribute("value");
-		int rows=0;
+		int EmpId = (int) session.getAttribute("value");
+		int rows = 0;
 		try {
-			rows = LoginDAOImpl.updatePassword(pwd,psd, EmpId);
+			rows = loginObject.updatePassword(pwd, psd, EmpId);
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(rows==0)
+		if (rows == 0)
 			response.sendRedirect("activeLogin.jsp?result=Updation Failure");
 		else
 			response.sendRedirect("login.jsp");

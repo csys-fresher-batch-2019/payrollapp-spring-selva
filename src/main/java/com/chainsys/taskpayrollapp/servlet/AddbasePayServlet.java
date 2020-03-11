@@ -16,30 +16,22 @@ public class AddbasePayServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	PayrollService ps;
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
+
 		String id = request.getParameter("id");
 		String pay = request.getParameter("pay");
 		int eid = Integer.parseInt(id);
 		int epay = Integer.parseInt(pay);
-		try {
-			int rows = ps.addBasepay(eid, epay);
-			if(rows==1)
-			{
-				String result = "Updated Successfully";
-				response.sendRedirect("hr.jsp?result="+result);
-			}
-			else
-			{
-				String result = "Updates Failed";
-				response.sendRedirect("hr.jsp?result="+result);
-			}
-		}
-		catch(Exception e)
-		{
-			throw new RuntimeException(e);
+		int rows = ps.addBasepay(eid, epay);
+		if (rows == 1) {
+			String result = "Updated Successfully";
+			response.sendRedirect("hr.jsp?result=" + result);
+		} else {
+			String result = "Updates Failed";
+			response.sendRedirect("hr.jsp?result=" + result);
 		}
 	}
 }

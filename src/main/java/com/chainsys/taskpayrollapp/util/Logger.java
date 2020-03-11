@@ -1,5 +1,6 @@
 package com.chainsys.taskpayrollapp.util;
-
+//UNUSED
+/*
 public class Logger {
 	public static Logger getInstance() {
 		Logger logger = new Logger();
@@ -22,5 +23,5 @@ public class Logger {
 		System.err.println(message);
 	}
 
-
 }
+*/

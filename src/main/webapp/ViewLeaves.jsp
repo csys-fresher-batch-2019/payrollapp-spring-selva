@@ -55,8 +55,8 @@
 				<td><%=h.getToDate() %></td>
 				<td><%=h.getReason()%></td>
 				
-				<td><button  name="Accept" id ="btn" onclick="myFunction(<%=h.getID()%>)" value=<%=h.getID() %> style="background-color:#EFEAEA;color:#24C352;"><i class="fa fa-check"></i> </button></td>
-				<td><button  name="Reject" id ="btn1" onclick="myFunctions()" value=<%=h.getID() %> formaction = "RejectLeaveServlet" style="background-color:#EFEAEA;color:#DC3006;"><i class="fa fa-close"></i> </button></td>
+				<td><button  name="Accept" id ="btn" value=<%=h.getID() %> style="background-color:#EFEAEA;color:#24C352;"><i class="fa fa-check"></i> </button></td>
+				<td><button  name="Reject" id ="btn1" value=<%=h.getID() %> formaction = "RejectLeaveServlet" style="background-color:#EFEAEA;color:#DC3006;"><i class="fa fa-close"></i> </button></td>
 			</tr>
 				<%}}else{ %>
 					<center><h3>No Leave Applications</h3></center>
@@ -64,17 +64,6 @@
 		</table>
 		</form>
 		</div>
-		
-		
-		<script>
-		function myFunction() {
-			console.log("button Clicked");
-			   document.getElementById("btn").disabled = true;
-			}
-		function myFunctions() {
-			console.log("button Clicked");
-			   document.getElementById("btn").disabled = true;
-			}
-		</script>
+
 	</body>
 </html>

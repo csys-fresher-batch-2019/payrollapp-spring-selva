@@ -15,7 +15,7 @@ public class LogMonitorDAOImpl {
 		CallableStatement stmt = null;
 		try {
 			con = Connections.connect();
-			stmt = con.prepareCall("{call entry_gate(?)}");
+			stmt = con.prepareCall("{call bio_entry(?)}");
 			stmt.setInt(1, empId);
 			rows = stmt.executeUpdate();
 		} catch (SQLException e) {

@@ -10,40 +10,36 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.chainsys.taskpayrollapp.exceptions.DBException;
+import com.chainsys.taskpayrollapp.exceptions.ServiceException;
 import com.chainsys.taskpayrollapp.service.PayrollService;
-@WebServlet("/SwipeServlet")
 
+@WebServlet("/SwipeServlet")
 
 public class SwipeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	PayrollService ps;
-   
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
+
 		HttpSession session = request.getSession();
-		int EmpId = (int)session.getAttribute("value");
+		int EmpId = (int) session.getAttribute("value");
 		System.out.println(EmpId);
-		int rows=0;
+		int rows = 0;
 		try {
 			rows = ps.swipe(EmpId);
-		} catch (DBException e) {
+			if (rows == 1) {
+				String result = "HI " + EmpId;
+				response.sendRedirect("ceo.jsp?result=" + result);
+			} else {
+				String result = "Failed";
+				response.sendRedirect("ceo.jsp?result=" + result);
+			}
+		} catch (ServiceException e) {
 			e.printStackTrace();
-		}
-		if(rows==1)
-		{
-			String result = "HI "+EmpId;
-			response.sendRedirect("ceo.jsp?result="+result);
-		}
-		else
-		{
-			String result = "Failed";
-			response.sendRedirect("ceo.jsp?result="+result);
 		}
 	}
 
-	
 }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.chainsys.taskpayrollapp.exceptions.DBException;
 import com.chainsys.taskpayrollapp.model.LeaveApplicationModel;
-import com.chainsys.taskpayrollapp.model.LeaveApplicationModel.LeaveStatus;
 import com.chainsys.taskpayrollapp.util.Connections;
 import com.chainsys.taskpayrollapp.util.ErrorMessages;
 import com.chainsys.taskpayrollapp.util.SendMailSSL;
@@ -32,15 +31,9 @@ public class LeaveApplicationDAOImpl {
 		return rows;
 	}
 
-	public int leaveStatusUpdate(int eid, int option) {
+	public int leaveStatusUpdate(int eid,String status) {
 		String sql = "update leave_info set status = ? where emp_id = ? and status = 'PENDING'";
 		int rows = 0;
-		String status = "";
-		if (option == 1) {
-			status = LeaveStatus.APPROVED.toString();
-		} else {
-			status = LeaveStatus.NOT_APPROVED.toString();
-		}
 		rows = jdbcTemplate.update(sql, status, eid);
 		return rows;
 	}
@@ -52,9 +45,8 @@ public class LeaveApplicationDAOImpl {
 		return rows;
 	}
 
-	public boolean sendMail(int eid, String status) throws DBException {
+	public String sendMail(int eid) throws DBException {
 		String sql1 = "select email from employee where emp_id = ?";
-		boolean mailStatus = false;
 		String email = "";
 		try {
 			Connection con = Connections.connect();
@@ -63,14 +55,11 @@ public class LeaveApplicationDAOImpl {
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				email = rs.getString("email");
-				SendMailSSL.send("payrollmavenproject@gmail.com", "Pass1234*", email, "Leave Application " + status,
-						status, eid);
-				mailStatus = true;
 			}
 		} catch (SQLException e) {
 			throw new DBException(ErrorMessages.Error);
 		}
-		return mailStatus;
+		return email;
 	}
 
 }

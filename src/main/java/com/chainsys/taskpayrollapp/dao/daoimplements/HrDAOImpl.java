@@ -42,7 +42,7 @@ public class HrDAOImpl implements HrDAO {
 		return rows;
 	}
 
-	public List<HrModel> viewLeaveApplication() throws Exception {
+	public List<HrModel> viewLeaveApplication() throws DBException {
 		String sql = "select li.emp_id,from_leave_date,to_leave_date,reason from leave_info li "
 				+ " inner join employee e on e.emp_id=li.emp_id and e.designation !='HR'and li.status='PENDING' ";
 		Connection con = null;
@@ -65,9 +65,15 @@ public class HrDAOImpl implements HrDAO {
 		} catch (SQLException e) {
 			throw new DBException(e.toString());
 		} finally {
-			con.close();
-			pst.close();
-			rs.close();
+			try {
+				pst.close();
+				rs.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			
 
 		}
 	}

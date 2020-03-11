@@ -11,35 +11,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.chainsys.taskpayrollapp.service.PayrollService;
 
-
 @WebServlet("/AddAllowanceServlet")
 public class AddAllowanceServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	PayrollService ps;
-    	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
+
 		String id = request.getParameter("id");
 		String allo = request.getParameter("allowance");
 		int eid = Integer.parseInt(id);
 		int allowance = Integer.parseInt(allo);
-		try {
-			int rows = ps.addCredit(eid, allowance);
-			if(rows==1)
-			{
-				String result = "Updated Successfully";
-				response.sendRedirect("hr.jsp?result="+result);
-			}
-			else
-			{
-				String result = "Updates Failed";
-				response.sendRedirect("hr.jsp?result="+result);
-			}
-		}
-		catch(Exception e)
-		{
-			throw new RuntimeException(e);
+		int rows = ps.addCredit(eid, allowance);
+		if (rows == 1) {
+			String result = "Updated Successfully";
+			response.sendRedirect("hr.jsp?result=" + result);
+		} else {
+			String result = "Updates Failed";
+			response.sendRedirect("hr.jsp?result=" + result);
 		}
 	}
 }

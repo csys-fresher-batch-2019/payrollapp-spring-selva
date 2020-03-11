@@ -9,15 +9,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.chainsys.taskpayrollapp.exceptions.ServiceException;
 import com.chainsys.taskpayrollapp.model.AdminModel;
 import com.chainsys.taskpayrollapp.service.PayrollService;
+
 @WebServlet("/AddDetailServlet")
 
 public class AddDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	PayrollService service;
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		int rows = 0;
 		AdminModel admin = new AdminModel();
@@ -36,18 +40,15 @@ public class AddDetailServlet extends HttpServlet {
 		admin.setEmail(mail);
 		try {
 			rows = service.addEmployeeDetails(admin);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		if(rows>0)
-		{
-			String result = ""+rows;
-			response.sendRedirect("Admin.jsp?result="+result);
-		}
-		else
-		{
-			String result = "Add Employee Failed";
-			response.sendRedirect("Admin.jsp?result="+result);
+			if (rows > 0) {
+				int result = rows;
+				response.sendRedirect("Admin.jsp?result=" + result);
+			} else {
+				String result = "Add Employee Failed";
+				response.sendRedirect("Admin.jsp?result=" + result);
+			}
+		} catch (ServiceException e) {
+			e.printStackTrace();
 		}
 	}
 
