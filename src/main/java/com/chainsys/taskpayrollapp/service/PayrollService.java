@@ -10,10 +10,9 @@ import com.chainsys.taskpayrollapp.dao.daoimplements.AdminDAOImpl;
 import com.chainsys.taskpayrollapp.dao.daoimplements.AccountantDAOImpl;
 import com.chainsys.taskpayrollapp.dao.daoimplements.HrDAOImpl;
 import com.chainsys.taskpayrollapp.dao.daoimplements.LogMonitorDAOImpl;
+import com.chainsys.taskpayrollapp.exception.DBException;
+import com.chainsys.taskpayrollapp.exception.ServiceException;
 import com.chainsys.taskpayrollapp.dao.daoimplements.LeaveApplicationDAOImpl;
-import com.chainsys.taskpayrollapp.dao.*;
-import com.chainsys.taskpayrollapp.exceptions.DBException;
-import com.chainsys.taskpayrollapp.exceptions.ServiceException;
 import com.chainsys.taskpayrollapp.model.AdminModel;
 import com.chainsys.taskpayrollapp.model.HrModel;
 import com.chainsys.taskpayrollapp.model.LeaveApplicationModel;
@@ -26,22 +25,21 @@ import com.chainsys.taskpayrollapp.validation.UserDetailsValidation;
 public class PayrollService {
 	@Autowired
 	private AdminDAOImpl ado;
-	private AccountantDAO aco = new AccountantDAOImpl();
+	@Autowired
+	private AccountantDAOImpl aco;
 	@Autowired
 	private HrDAOImpl hdo;
-	private LogMonitorDAOImpl lm = new LogMonitorDAOImpl();
+	@Autowired
+	private LogMonitorDAOImpl lm;
 	@Autowired
 	private LeaveApplicationDAOImpl leave;
-	private UserDetailsValidation user = new UserDetailsValidation();;
+	private UserDetailsValidation user = new UserDetailsValidation();
 
 	// Admin Services
 	public int addEmployeeDetails(AdminModel a) throws ServiceException {
 		int rows = 0;
-		boolean result = true;
 		try {
-			result = user.emailValidation(a.getEmail());
-			result = user.panValidation(a.getPan());
-			if (result) {
+			if (user.emailValidation(a.getEmail()) && user.panValidation(a.getPan())) {
 				rows = ado.addUsers(a);
 				return rows;
 			} else {
@@ -64,7 +62,7 @@ public class PayrollService {
 				return 0;
 			}
 		} catch (DBException e) {
-			throw new ServiceException(ErrorMessages.Error);
+			throw new ServiceException(ErrorMessages.ERROR);
 		}
 	}
 
@@ -82,14 +80,14 @@ public class PayrollService {
 		int rows = 0;
 		boolean result = false;
 		try {
+			result = user.idValidation(id);
 			if (result) {
 				rows = ado.resetPassword(id);
 			} else {
 				return 0;
 			}
-			result = user.idValidation(id);
 		} catch (DBException e) {
-			throw new ServiceException(ErrorMessages.Error);
+			throw new ServiceException(ErrorMessages.ERROR);
 		}
 		return rows;
 	}
@@ -149,7 +147,7 @@ public class PayrollService {
 	public int generatePaySlip() throws ServiceException {
 		int rows = 0;
 		try {
-			rows = aco.GeneratePaySlip();
+			rows = aco.generatePaySlip();
 		} catch (DBException e) {
 			throw new ServiceException(e.toString());
 		}
@@ -158,23 +156,56 @@ public class PayrollService {
 
 	// HR Services
 
-	public int addGrade(int id, int grade) {
-		int rows = hdo.addGrade(id, grade);
+	public int addGrade(int id, int grade) throws ServiceException {
+		int rows = 0;
+		boolean result = false;
+		try {
+			result = user.idValidation(id);
+			if (result) {
+				rows = hdo.addGrade(id, grade);
+			} else {
+				rows = 0;
+			}
+		} catch (DBException e) {
+			throw new ServiceException(e.toString());
+		}
 		return rows;
 	}
 
-	public int addBasepay(int id, int basepay) {
-		int rows = hdo.addBasepay(id, basepay);
+	public int addBasepay(int id, int basepay) throws ServiceException {
+		int rows = 0;
+		boolean result = false;
+		try {
+			result = user.idValidation(id);
+			if (result) {
+				rows = hdo.addBasepay(id, basepay);
+			} else {
+				rows = 0;
+			}
+		} catch (DBException e) {
+			throw new ServiceException(e.toString());
+		}
 		return rows;
 	}
 
-	public int addCredit(int id, int allowance) {
-		int rows = hdo.addCredit(allowance, id);
+	public int addCredit(int id, int allowance) throws ServiceException {
+		int rows = 0;
+		boolean result = false;
+		try {
+			result = user.idValidation(id);
+			if (result) {
+				rows = hdo.addCredit(allowance, id);
+			} else {
+				rows = 0;
+			}
+		} catch (DBException e) {
+			throw new ServiceException(e.toString());
+		}
 		return rows;
 	}
 
 	public List<HrModel> viewLeaveApplication() throws ServiceException {
-		List<HrModel> list = new ArrayList<HrModel>();
+		List<HrModel> list = new ArrayList<>();
 		try {
 			list = hdo.viewLeaveApplication();
 		} catch (DBException e) {
@@ -187,8 +218,14 @@ public class PayrollService {
 
 	public int swipe(int id) throws ServiceException {
 		int rows = 0;
+		boolean result = false;
 		try {
-			rows = lm.swipe(id);
+			result = user.idValidation(id);
+			if (result) {
+				rows = lm.swipe(id);
+			} else {
+				rows = 0;
+			}
 		} catch (DBException e) {
 			throw new ServiceException(e.toString());
 		}
@@ -198,8 +235,7 @@ public class PayrollService {
 	// Leaveform
 
 	public int applyLeave(int id, LeaveApplicationModel leavemodel) {
-		int rows = leave.applyLeave(id, leavemodel);
-		return rows;
+		return leave.applyLeave(id, leavemodel);
 	}
 
 	// Leave
@@ -212,24 +248,20 @@ public class PayrollService {
 		try {
 			status = LeaveStatus.APPROVED.toString();
 			if ((leave.leaveStatusUpdate(id, status)) > 0 && (leave.leaveCountUpdate(id)) > 0) {
-				email = leave.sendMail(id);
+				email = leave.getEmail(id);
 				result = SendMailSSL.send("payrollmavenproject@gmail.com", "Pass1234*", email,
 						"Leave Application " + status, status, id);
 				if (result) {
-					rows = (leave.leaveStatusUpdate(id, status));
-				} else {
-					rows = 0;
-				}
+					rows = 1;
+				} 
 			}
-
+			return rows;
 		} catch (DBException e) {
 			throw new ServiceException(e.toString());
 		}
-		return rows;
-
 	}
 
-	public int RejectLeave(int id) throws ServiceException {
+	public int rejectLeave(int id) throws ServiceException {
 		int rows = 0;
 		boolean result = false;
 		String status = "";
@@ -237,13 +269,11 @@ public class PayrollService {
 		try {
 			status = LeaveStatus.NOT_APPROVED.toString();
 			if ((leave.leaveStatusUpdate(id, status)) > 0) {
-				email = leave.sendMail(id);
+				email = leave.getEmail(id);
 				result = SendMailSSL.send("payrollmavenproject@gmail.com", "Pass1234*", email,
 						"Leave Application " + status, status, id);
 				if (result) {
-					rows = (leave.leaveStatusUpdate(id, status));
-				} else {
-					rows = 0;
+					rows = 1;
 				}
 			}
 

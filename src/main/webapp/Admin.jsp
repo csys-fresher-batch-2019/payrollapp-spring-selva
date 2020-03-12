@@ -49,8 +49,23 @@ body {
 	margin-top: 20px;
 }
 
-.act button:not (:last-child ) {
-	border-bottom: none; /* Prevent double borders */
+.act
+ 
+button
+:not
+ 
+(
+:last-child
+ 
+)
+{
+border-bottom
+:
+ 
+none
+; /* Prevent double borders */
+
+
 }
 /* Add a background color on hover */
 .act button:hover {

@@ -1,17 +1,22 @@
 package com.chainsys.taskpayrollapp.dao.daoimplements;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
 import com.chainsys.taskpayrollapp.dao.AccountantDAO;
-import com.chainsys.taskpayrollapp.exceptions.DBException;
-import com.chainsys.taskpayrollapp.util.Connections;
-import com.chainsys.taskpayrollapp.util.ErrorMessages;
+import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.util.GetDataUtil;
 
+@Repository
 public class AccountantDAOImpl implements AccountantDAO {
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
 	/**
 	 * PF calculation by using two table(employee,deduction) data and update the PF
 	 * column in deduction table
@@ -19,117 +24,48 @@ public class AccountantDAOImpl implements AccountantDAO {
 	 * @throws DBException
 	 * @throws SQLException
 	 */
-	public int calculatePF() throws DBException {
+	public int calculatePF() throws DBException{
 
-		int rows = 0;
 		GetDataUtil get = new GetDataUtil();
-		Connection con = null;
-		CallableStatement statement = null;
-		try {
-			con = Connections.connect();
-			List<Integer> ids = get.getAllId();
-			for (int i : ids) {
-				statement = con.prepareCall("{call calculate_pf(?)}");
-				statement.setInt(1, i);
-				rows = statement.executeUpdate();
-			}
-		} catch (Exception e) {
-			throw new DBException(ErrorMessages.INVALID_COLUMN_INDEX);
-		} finally {
 
-			try {
-				statement.close();
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		List<Integer> ids = get.getAllId();
+		for (int i : ids) {
+			jdbcTemplate.update("call calculate_pf (?)", i);
 		}
-		return rows;
+		return 1;
 	}
 
 	public int calculateIncrement() throws DBException {
-		int rows = 0;
 		GetDataUtil get = new GetDataUtil();
-		Connection con = null;
-		CallableStatement statement = null;
-		try {
-			con = Connections.connect();
-			List<Integer> ids = get.getAllId();
-			for (int i : ids) {
-				statement = con.prepareCall("{call calculate_increment(?)}");
-				statement.setInt(1, i);
-				rows = statement.executeUpdate();
-			}
-		} catch (Exception e) {
-			throw new DBException(ErrorMessages.INVALID_COLUMN_INDEX);
-		} finally {
-			try {
-				statement.close();
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		List<Integer> ids = get.getAllId();
+		for (int i : ids) {
+			jdbcTemplate.update("call calculate_increment (?)", i);
 		}
-		return rows;
+		return 1;
 	}
 
 	public int calculatesalary() throws DBException {
 
-		int rows = 0;
 		GetDataUtil get = new GetDataUtil();
-		Connection con = null;
-		CallableStatement statement = null;
-		try {
-			con = Connections.connect();
-			List<Integer> ids = get.getAllId();
-			for (int i : ids) {
-				statement = con.prepareCall("{call calculate_salary(?)}");
-				statement.setInt(1, i);
-				rows = statement.executeUpdate();
-			}
-		} catch (Exception e) {
-			throw new DBException(ErrorMessages.INVALID_COLUMN_INDEX);
-		} finally {
-
-			try {
-				statement.close();
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		List<Integer> ids = get.getAllId();
+		for (int i : ids) {
+			jdbcTemplate.update("call calculate_salary (?)", i);
 		}
-		return rows;
+		return 1;
 	}
 
 	public int markAttendance() throws DBException {
-		int rows = 0;
 		GetDataUtil get = new GetDataUtil();
-		Connection con = null;
-		CallableStatement statement = null;
-		try {
-			con = Connections.connect();
-			List<Integer> ids = get.getAllId();
-			for (int i : ids) {
-				statement = con.prepareCall("{call attendance_check(?)}");
-				statement.setInt(1, i);
-				rows = statement.executeUpdate();
-			}
-		} catch (SQLException e) {
-			throw new DBException(e.toString());
-		} finally {
-			try {
-				statement.close();
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+
+		List<Integer> ids = get.getAllId();
+		for (int i : ids) {
+			jdbcTemplate.update("call attendance_check (?)", i);
 		}
-		return rows;
+		return 1;
 	}
 
-	public int GeneratePaySlip() throws DBException {
+	public int generatePaySlip() throws DBException {
 		PaySlipDAOImpl gp = new PaySlipDAOImpl();
-		int workDone = gp.EmployeeDetails();
-		return workDone;
+		return gp.employeeDetails();
 	}
 }

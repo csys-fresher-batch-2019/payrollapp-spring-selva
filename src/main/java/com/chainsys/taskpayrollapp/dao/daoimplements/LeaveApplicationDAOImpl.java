@@ -5,15 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.chainsys.taskpayrollapp.exceptions.DBException;
+import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.model.LeaveApplicationModel;
 import com.chainsys.taskpayrollapp.util.Connections;
 import com.chainsys.taskpayrollapp.util.ErrorMessages;
-import com.chainsys.taskpayrollapp.util.SendMailSSL;
 
 @Repository
 
@@ -21,6 +22,7 @@ public class LeaveApplicationDAOImpl {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	private static final Logger logger = LoggerFactory.getLogger(LeaveApplicationDAOImpl.class);
 
 	public int applyLeave(int empId, LeaveApplicationModel l) {
 		String sql = "insert into leave_info(emp_id,from_leave_date,to_leave_date,reason)values(?,to_date(?,'MM/dd/yyyy'),to_date(?,'MM/dd/yyyy'),?)";
@@ -31,10 +33,9 @@ public class LeaveApplicationDAOImpl {
 		return rows;
 	}
 
-	public int leaveStatusUpdate(int eid,String status) {
+	public int leaveStatusUpdate(int eid, String status) {
 		String sql = "update leave_info set status = ? where emp_id = ? and status = 'PENDING'";
-		int rows = 0;
-		rows = jdbcTemplate.update(sql, status, eid);
+		int rows = jdbcTemplate.update(sql, status, eid);
 		return rows;
 	}
 
@@ -45,19 +46,32 @@ public class LeaveApplicationDAOImpl {
 		return rows;
 	}
 
-	public String sendMail(int eid) throws DBException {
+	public String getEmail(int eid) throws DBException {
 		String sql1 = "select email from employee where emp_id = ?";
 		String email = "";
+		Connection con = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
 		try {
-			Connection con = Connections.connect();
-			PreparedStatement pst = con.prepareStatement(sql1);
+			con = Connections.connect();
+			pst = con.prepareStatement(sql1);
 			pst.setInt(1, eid);
-			ResultSet rs = pst.executeQuery();
+			rs = pst.executeQuery();
 			if (rs.next()) {
 				email = rs.getString("email");
 			}
 		} catch (SQLException e) {
-			throw new DBException(ErrorMessages.Error);
+			throw new DBException(ErrorMessages.ERROR);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+					pst.close();
+					con.close();
+				}
+			} catch (SQLException e) {
+				logger.error("Error in selecting Mail", e);
+			}
 		}
 		return email;
 	}

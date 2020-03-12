@@ -2,7 +2,7 @@ package com.chainsys.taskpayrollapp.validation;
 
 import java.util.List;
 
-import com.chainsys.taskpayrollapp.exceptions.DBException;
+import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.util.GetDataUtil;
 
 public class UserDetailsValidation {

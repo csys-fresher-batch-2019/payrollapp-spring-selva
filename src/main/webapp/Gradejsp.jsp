@@ -77,6 +77,7 @@ label {
 	margin-left: 150px;
 	font-size: 120%;
 }
+
 #demo {
 	color: red;
 }
@@ -85,11 +86,11 @@ label {
 <body>
 	<form action="AddgradeServlet" name="details"
 		onsubmit="return validate()" method="GET">
-		<label for="Reason">ID</label> <input type="text" name="id" id = "value"
+		<label for="Reason">ID</label> <input type="text" name="id" id="value"
 			placeholder="Enter the Id" min="1000" maxlength="4" required
-			autofocus /> <span id="demo"></span> <label for="Reason">Grade</label> <input type="text"
-			name="grade" placeholder="Enter the grade" required autofocus /> <input
-			type="submit" name="Submit" value="Update">
+			autofocus /> <span id="demo"></span> <label for="Reason">Grade</label>
+		<input type="text" name="grade" placeholder="Enter the grade" required
+			autofocus /> <input type="submit" name="Submit" value="Update">
 	</form>
 </body>
 </html>

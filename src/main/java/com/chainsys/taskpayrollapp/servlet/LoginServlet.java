@@ -10,39 +10,42 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.chainsys.taskpayrollapp.dao.daoimplements.LoginDAOImpl;
-import com.chainsys.taskpayrollapp.exceptions.DBException;
+import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.service.PayrollService;
 
 @WebServlet("/LoginServlet")
 
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private static final Logger logger = LoggerFactory.getLogger(LoginServlet.class);
 	@Autowired
 	LoginDAOImpl loginObject;
 	@Autowired
 	PayrollService service;
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String userName = request.getParameter("username");
-		int id = Integer.parseInt(userName);
-		String password = request.getParameter("password");
-		String desg;
-		if (id == 9999 && password.equals("ceo")) {
-			desg = "CEO";
-			HttpSession sess = request.getSession();
-			sess.setAttribute("desg", desg);
-			RequestDispatcher sd = request.getRequestDispatcher("ceo.jsp");
-			sd.forward(request, response);
-		} else {
-			String res = "activate";
-			String resu = "wrong password";
-			String result = "Not a user";
-			try {
+		try {
+			String userName = request.getParameter("username");
+			int id = Integer.parseInt(userName);
+			String password = request.getParameter("password");
+			String desg;
+			if (id == 9999 && password.equals("ceo")) {
+				desg = "CEO";
+				HttpSession sess = request.getSession();
+				sess.setAttribute("desg", desg);
+				RequestDispatcher sd = request.getRequestDispatcher("ceo.jsp");
+				sd.forward(request, response);
+			} else {
+				String res = "activate";
+				String resu = "wrong password";
+				String result = "Not a user";
 				desg = loginObject.login(id, password);
 				HttpSession sess = request.getSession();
 				sess.setAttribute("desg", desg);
@@ -84,10 +87,10 @@ public class LoginServlet extends HttpServlet {
 						break;
 					}
 				}
-			} catch (DBException e) {
-				e.printStackTrace();
 			}
+		} catch (IOException | DBException | NumberFormatException | ServletException e) {
+			logger.error("Error in login", e);
+			response.sendRedirect("Error.jsp?error=" + e);
 		}
 	}
-
 }

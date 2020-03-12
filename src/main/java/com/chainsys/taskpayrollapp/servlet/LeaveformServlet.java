@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.chainsys.taskpayrollapp.model.LeaveApplicationModel;
@@ -19,10 +20,10 @@ public class LeaveformServlet extends HttpServlet {
 	@Autowired
 	PayrollService ps;
 
+	@Override
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 		LeaveApplicationModel leave = new LeaveApplicationModel();
 		String fromDate = request.getParameter("fromdate");
 		String toDate = request.getParameter("todate");
@@ -32,8 +33,8 @@ public class LeaveformServlet extends HttpServlet {
 		leave.setReasonForLeave(reason);
 		int rows = 0;
 		HttpSession session = request.getSession();
-		int EmpId = (int) session.getAttribute("value");
-		rows = ps.applyLeave(EmpId, leave);
+		int empId = (int) session.getAttribute("value");
+		rows = ps.applyLeave(empId, leave);
 		if (rows > 0) {
 			String result = "Leave Applied";
 			response.sendRedirect("ceo.jsp?result=" + result);

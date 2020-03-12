@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.chainsys.taskpayrollapp.exceptions.DBException;
+import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.model.HrModel;
 
 public interface HrDAO {
@@ -15,5 +15,5 @@ public interface HrDAO {
 
 	int addCredit(int allowance, int id) throws DBException;
 
-	List<HrModel> viewLeaveApplication() throws Exception;
+	List<HrModel> viewLeaveApplication() throws DBException;
 }

@@ -6,14 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.chainsys.taskpayrollapp.exceptions.DBException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.model.PaySlipModel;
 import com.chainsys.taskpayrollapp.util.Connections;
 import com.chainsys.taskpayrollapp.util.GeneratePaySlip;
 import com.chainsys.taskpayrollapp.util.GetDataUtil;
 
 public class PaySlipDAOImpl {
-	public int EmployeeDetails() throws DBException {
+	private static final Logger logger = LoggerFactory.getLogger(PaySlipDAOImpl.class);
+	public int employeeDetails() throws DBException {
 		GetDataUtil get = new GetDataUtil();
 		GeneratePaySlip gen = new GeneratePaySlip();
 		int workDone = 0;
@@ -60,7 +64,7 @@ public class PaySlipDAOImpl {
 				pst.close();
 				con.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.error("Error in Payslip Generation",e);
 			}
 		}
 		return workDone;

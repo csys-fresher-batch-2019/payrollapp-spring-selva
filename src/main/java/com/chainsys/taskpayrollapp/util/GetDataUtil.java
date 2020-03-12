@@ -7,13 +7,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.chainsys.taskpayrollapp.exceptions.DBException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.chainsys.taskpayrollapp.exception.DBException;
 
 public class GetDataUtil {
-	public static final String empId = "emp_id";
-	public static final String emailid = "email";
-	public static final String pan_number = "pan_number";
-
+	public static final String EMPID = "emp_id";
+	public static final String EMAILID = "email";
+	public static final String PANNUMBER = "pan_number";
+	private static final Logger logger = LoggerFactory.getLogger(GetDataUtil.class);
 	public List<String> getAllEmail() throws DBException {
 		String sql = "select email from employee";
 		Connection con = null;
@@ -25,17 +28,19 @@ public class GetDataUtil {
 			pst = con.prepareStatement(sql);
 			result = pst.executeQuery();
 			while (result.next()) {
-				emails.add(result.getString(emailid));
+				emails.add(result.getString(EMAILID));
 			}
 		} catch (SQLException e) {
-			throw new DBException(ErrorMessages.Error);
+			throw new DBException(ErrorMessages.ERROR);
 		} finally {
 			try {
+				if(result != null) {
 				result.close();
 				pst.close();
 				con.close();
+				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.error("Error in Get all mail",e);
 			}
 		}
 		return emails;
@@ -52,17 +57,19 @@ public class GetDataUtil {
 			pst = con.prepareStatement(sql);
 			result = pst.executeQuery();
 			while (result.next()) {
-				panNumber.add(result.getString(pan_number));
+				panNumber.add(result.getString(PANNUMBER));
 			}
 		} catch (SQLException e) {
-			throw new DBException(ErrorMessages.Error);
+			throw new DBException(ErrorMessages.ERROR);
 		} finally {
 			try {
+				if(result != null) {
 				result.close();
 				pst.close();
 				con.close();
+				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.error("Error",e);
 			}
 		}
 		return panNumber;
@@ -79,17 +86,19 @@ public class GetDataUtil {
 			pst = con.prepareStatement(sql);
 			result = pst.executeQuery();
 			while (result.next()) {
-				ids.add(result.getInt(empId));
+				ids.add(result.getInt(EMPID));
 			}
 		} catch (SQLException e) {
-			throw new DBException(ErrorMessages.Error);
+			throw new DBException(ErrorMessages.ERROR);
 		} finally {
 			try {
+				if(result != null) {
 				result.close();
 				pst.close();
 				con.close();
+				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.error("Error",e);
 			}
 
 		}

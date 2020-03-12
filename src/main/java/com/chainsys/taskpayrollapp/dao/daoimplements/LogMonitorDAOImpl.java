@@ -1,33 +1,18 @@
 package com.chainsys.taskpayrollapp.dao.daoimplements;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
 
-import com.chainsys.taskpayrollapp.exceptions.DBException;
-import com.chainsys.taskpayrollapp.util.Connections;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+
+@Repository
 public class LogMonitorDAOImpl {
-
-	public int swipe(int empId) throws DBException {
-		int rows = 0;
-		Connection con = null;
-		CallableStatement stmt = null;
-		try {
-			con = Connections.connect();
-			stmt = con.prepareCall("{call bio_entry(?)}");
-			stmt.setInt(1, empId);
-			rows = stmt.executeUpdate();
-		} catch (SQLException e) {
-			throw new DBException(e.toString());
-		} finally {
-			try {
-				stmt.close();
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return rows;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	public int swipe(int empId) {
+			jdbcTemplate.update("call bio_entry (?)", empId);
+		return 1;
 	}
 }

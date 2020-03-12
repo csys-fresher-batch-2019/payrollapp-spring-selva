@@ -7,21 +7,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.chainsys.taskpayrollapp.exceptions.ServiceException;
+import com.chainsys.taskpayrollapp.exception.ServiceException;
 import com.chainsys.taskpayrollapp.service.PayrollService;
 
 @WebServlet("/AcceptLeaveServlet")
 public class AcceptLeaveServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private static final Logger logger = LoggerFactory.getLogger(AcceptLeaveServlet.class);
 	@Autowired
 	PayrollService service;
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 		int rows = 0;
 		String id = request.getParameter("Accept");
 		int eid = Integer.parseInt(id);
@@ -34,8 +36,9 @@ public class AcceptLeaveServlet extends HttpServlet {
 				String result = "Failed";
 				response.sendRedirect("hr.jsp?result=" + result);
 			}
-		} catch (ServiceException e) {
-			e.printStackTrace();
+		} catch (IOException | ServiceException | NumberFormatException e) {
+			logger.error("Error in Accept Leave Servlet", e);
+			response.sendRedirect("Error.jsp?Error=" + e);
 		}
 	}
 }

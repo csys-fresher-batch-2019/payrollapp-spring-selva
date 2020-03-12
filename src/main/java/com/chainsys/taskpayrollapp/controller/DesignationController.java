@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.util.GetDataUtil;
 
 @CrossOrigin(origins = "*")
@@ -15,19 +16,19 @@ import com.chainsys.taskpayrollapp.util.GetDataUtil;
 public class DesignationController {
 
 	@GetMapping("/displaymail")
-	public List<String> getEmail() throws Exception {
+	public List<String> getEmail() throws DBException  {
 		GetDataUtil get = new GetDataUtil();
 		return get.getAllEmail();
 	}
 
 	@GetMapping("/displaypan")
-	public List<String> getPan() throws Exception {
+	public List<String> getPan() throws DBException {
 		GetDataUtil get = new GetDataUtil();
 		return get.getAllPan();
 	}
 
 	@GetMapping("/displayid")
-	public List<Integer> getId() throws Exception {
+	public List<Integer> getId() throws DBException {
 		GetDataUtil get = new GetDataUtil();
 		return get.getAllId();
 	}

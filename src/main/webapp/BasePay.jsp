@@ -77,6 +77,7 @@ label {
 	margin-left: 150px;
 	font-size: 120%;
 }
+
 #demo {
 	color: red;
 }
@@ -85,11 +86,11 @@ label {
 <body>
 	<form action="AddbasePayServlet" name="details"
 		onsubmit="return validate()" method="GET">
-		<label for="Reason">ID</label> <input type="text" name="id" id = "value"
+		<label for="Reason">ID</label> <input type="text" name="id" id="value"
 			placeholder="Enter the Id" min="1000" maxlength="4" required
-			autofocus /><span id="demo"></span> <label for="Reason">Base Salary</label> <input
-			type="text" name="pay" placeholder="Enter the basepay" min="10000"
-			maxlength="7" required autofocus /> <input type="submit"
+			autofocus /><span id="demo"></span> <label for="Reason">Base
+			Salary</label> <input type="text" name="pay" placeholder="Enter the basepay"
+			min="10000" maxlength="7" required autofocus /> <input type="submit"
 			name="Submit" value="Update">
 	</form>
 </body>

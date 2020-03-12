@@ -2,7 +2,7 @@ package com.chainsys.taskpayrollapp.dao;
 
 import org.springframework.stereotype.Service;
 
-import com.chainsys.taskpayrollapp.exceptions.DBException;
+import com.chainsys.taskpayrollapp.exception.DBException;
 
 @Service
 public interface AccountantDAO {
@@ -14,5 +14,5 @@ public interface AccountantDAO {
 
 	int markAttendance() throws DBException;// To note the Login and Logout time
 
-	int GeneratePaySlip() throws DBException;// To Generate Payslip PDF
+	int generatePaySlip() throws DBException;// To Generate Payslip PDF
 }

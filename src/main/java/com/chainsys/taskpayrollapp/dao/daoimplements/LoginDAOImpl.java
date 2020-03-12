@@ -5,18 +5,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.chainsys.taskpayrollapp.exceptions.DBException;
+import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.util.Connections;
 @Repository
 public class LoginDAOImpl {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-
-	public String login(int EmpId, String password) throws DBException {
+	private static final Logger logger = LoggerFactory.getLogger(LoginDAOImpl.class);
+	public String login(int empId, String password) throws DBException {
 		String designation = null;
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -25,7 +27,7 @@ public class LoginDAOImpl {
 		try {
 			con = Connections.connect();
 			stmt = con.prepareStatement(sql);
-			stmt.setInt(1, EmpId);
+			stmt.setInt(1, empId);
 			rs = stmt.executeQuery();
 			String res = "activate";
 			String res1 = "wrong password";
@@ -50,22 +52,22 @@ public class LoginDAOImpl {
 			throw new DBException(e.toString());
 		} finally {
 			try {
-				if (con != null || rs != null || stmt != null) {
+				if (rs != null) {
 					rs.close();
 					stmt.close();
 					con.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.error("Error in Login",e);
 			}
 		}
 	}
 
-	public int updatePassword(String newPassword, String confirmNewPassword, int EmpId) throws DBException {
+	public int updatePassword(String newPassword, String confirmNewPassword, int empId) {
 		String sql = "update user_login set password = ?,active = 1 where emp_id = ?";
 		int rows = 0;
 		if (newPassword.equals(confirmNewPassword)) {
-			rows = jdbcTemplate.update(sql, newPassword, EmpId);
+			rows = jdbcTemplate.update(sql, newPassword, empId);
 		}
 		return rows;
 	}

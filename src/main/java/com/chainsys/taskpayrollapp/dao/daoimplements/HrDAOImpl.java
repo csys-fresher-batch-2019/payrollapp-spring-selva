@@ -7,12 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.chainsys.taskpayrollapp.dao.HrDAO;
-import com.chainsys.taskpayrollapp.exceptions.DBException;
+import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.model.HrModel;
 import com.chainsys.taskpayrollapp.util.Connections;
 
@@ -21,11 +23,11 @@ import com.chainsys.taskpayrollapp.util.Connections;
 public class HrDAOImpl implements HrDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	private static final Logger logger = LoggerFactory.getLogger(HrDAOImpl.class);
 
 	public int addGrade(int id, int grade) {
 		String sql = "update employee set performance_grade = ? where emp_id = ?";
-		int rows = jdbcTemplate.update(sql, grade, id);
-		return rows;
+		return jdbcTemplate.update(sql, grade, id);
 	}
 
 	public int addBasepay(int id, int basepay) {
@@ -66,14 +68,14 @@ public class HrDAOImpl implements HrDAO {
 			throw new DBException(e.toString());
 		} finally {
 			try {
-				pst.close();
-				rs.close();
-				con.close();
+				if (rs != null) {
+					pst.close();
+					rs.close();
+					con.close();
+				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.error("Error in View leave application", e);
 			}
-			
-			
 
 		}
 	}

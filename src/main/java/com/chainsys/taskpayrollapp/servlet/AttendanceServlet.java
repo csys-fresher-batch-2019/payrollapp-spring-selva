@@ -8,20 +8,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.chainsys.taskpayrollapp.exceptions.ServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.chainsys.taskpayrollapp.exception.ServiceException;
 import com.chainsys.taskpayrollapp.service.PayrollService;
 
 @WebServlet("/AttendanceServlet")
 
 public class AttendanceServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(AttendanceServlet.class);
+	@Autowired
+	PayrollService ps;
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 		int rows = 0;
-		PayrollService ps = new PayrollService();
 		try {
 			rows = ps.markAttandence();
 			if (rows > 0) {
@@ -31,8 +36,9 @@ public class AttendanceServlet extends HttpServlet {
 				String result = "Failed";
 				response.sendRedirect("Accountant.jsp?result=" + result);
 			}
-		} catch (ServiceException e) {
-			e.printStackTrace();
+		} catch (IOException | ServiceException | NumberFormatException e) {
+			logger.error("Error in Attendance marking", e);
+			response.sendRedirect("Error.jsp?error=" + e);
 		}
 
 	}

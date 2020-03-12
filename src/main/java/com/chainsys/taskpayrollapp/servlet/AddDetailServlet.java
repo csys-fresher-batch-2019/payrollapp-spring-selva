@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.chainsys.taskpayrollapp.exceptions.ServiceException;
+import com.chainsys.taskpayrollapp.exception.ServiceException;
 import com.chainsys.taskpayrollapp.model.AdminModel;
 import com.chainsys.taskpayrollapp.service.PayrollService;
 
@@ -19,15 +21,15 @@ public class AddDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	PayrollService service;
+	private static final Logger logger = LoggerFactory.getLogger(AddDetailServlet.class);
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 		int rows = 0;
 		AdminModel admin = new AdminModel();
 		String name = request.getParameter("Name");
 		String desg = request.getParameter("Designation");
-		System.out.println(desg);
 		String pan = request.getParameter("pan");
 		String food = request.getParameter("food");
 		String cab = request.getParameter("cab");
@@ -47,8 +49,9 @@ public class AddDetailServlet extends HttpServlet {
 				String result = "Add Employee Failed";
 				response.sendRedirect("Admin.jsp?result=" + result);
 			}
-		} catch (ServiceException e) {
-			e.printStackTrace();
+		} catch (ServiceException | IOException e) {
+			logger.error("error",e);
+			response.sendRedirect("Error.jsp?Error=" + e);
 		}
 	}
 

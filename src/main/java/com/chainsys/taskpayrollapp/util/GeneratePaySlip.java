@@ -1,5 +1,8 @@
 package com.chainsys.taskpayrollapp.util;
 
+import java.io.FileNotFoundException;
+
+import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.model.PaySlipModel;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -7,8 +10,7 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Table;
 
 public class GeneratePaySlip {
-	public int paySlip(PaySlipModel obj, int id) throws Exception {
-		// OutputStream file = new FileOutputStream(new File("D:\\Test.pdf"));
+	public int paySlip(PaySlipModel obj, int id) throws DBException {
 		String salaryFile = "C:/Users/selv2403/Downloads/taskpayrollapp/taskpayrollapp/src/main/webapp/salary" + id
 				+ ".pdf";
 		try {
@@ -43,8 +45,8 @@ public class GeneratePaySlip {
 			table.addCell("Rs. " + obj.getSalaryToBeCredited());
 			doc.add(table);
 			doc.close();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+		} catch (FileNotFoundException e) {
+			throw new DBException(e.toString());
 		}
 		return 1;
 	}

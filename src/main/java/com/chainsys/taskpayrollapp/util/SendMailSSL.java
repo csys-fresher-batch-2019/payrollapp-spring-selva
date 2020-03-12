@@ -1,13 +1,13 @@
 package com.chainsys.taskpayrollapp.util;
 
 import java.util.Properties;
-//import javax.activation.DataHandler;
-//import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
 
+import com.chainsys.taskpayrollapp.exception.DBException;
+
 public class SendMailSSL {
-	public static boolean send(final String from, final String password, String to, String sub, String Msg, int id) {
+	public static boolean send(final String from, final String password, String to, String sub, String msg, int id) throws DBException {
 
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -17,6 +17,7 @@ public class SendMailSSL {
 		props.put("mail.smtp.port", "465");
 		props.put("mail.smtp.ssl.checkserveridentity", true);
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(from, password);
 			}
@@ -31,7 +32,7 @@ public class SendMailSSL {
 			BodyPart messageBodyPart2 = new MimeBodyPart();
 			messageBodyPart2.setText("\nDear, \n \t\t " + id);
 			BodyPart messageBodyPart3 = new MimeBodyPart();
-			messageBodyPart3.setText("\n\t\tYour Leave application was " + Msg);
+			messageBodyPart3.setText("\n\t\tYour Leave application was " + msg);
 			BodyPart messageBodyPart4 = new MimeBodyPart();
 			messageBodyPart4.setText("\n\t\tThank you");
 			BodyPart messageBodyPart5 = new MimeBodyPart();
@@ -54,15 +55,8 @@ public class SendMailSSL {
 			message.setContent(multipart);
 			Transport.send(message);
 		} catch (MessagingException e) {
-			throw new RuntimeException(e);
+			throw new DBException(e.toString());
 		}
 		return true;
 	}
 }
-
-/*
- * public class SendMailSSL { public static void main(String[] args) throws
- * IOException { Mailer.send("payrollmavenproject@gmail.com","Pass1234*",
- * "writewaythinking@gmail.com","Leave Application Rejected","How r u?",1001); }
- * }
- */

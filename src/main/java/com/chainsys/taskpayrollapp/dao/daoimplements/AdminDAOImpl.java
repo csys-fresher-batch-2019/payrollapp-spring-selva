@@ -3,11 +3,12 @@ package com.chainsys.taskpayrollapp.dao.daoimplements;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,8 +16,7 @@ import java.sql.SQLException;
 
 import com.chainsys.taskpayrollapp.model.AdminModel;
 import com.chainsys.taskpayrollapp.dao.AdminDAO;
-import com.chainsys.taskpayrollapp.exceptions.DBException;
-import com.chainsys.taskpayrollapp.model.AdminModel.FoodandCab;
+import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.util.Connections;
 import com.chainsys.taskpayrollapp.util.ErrorMessages;
 import com.chainsys.taskpayrollapp.util.GetDataUtil;
@@ -25,17 +25,15 @@ import com.chainsys.taskpayrollapp.util.GetDataUtil;
 public class AdminDAOImpl implements AdminDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	private static final Logger logger = LoggerFactory.getLogger(AdminDAOImpl.class);
 
 	public int addUsers(AdminModel a) throws DBException {
 		String sql = "insert into employee(emp_id,emp_name,designation,"
-				+ " email,food_subscription,cab_subscription,pan_number)"
-				+ "values(emp_id_seq.nextval,?,?,?,?,?,?)";
+				+ " email,food_subscription,cab_subscription,pan_number)" + "values(emp_id_seq.nextval,?,?,?,?,?,?)";
 		int id = 0;
 		Object[] params = { a.getEmpName(), a.getDesignation(), a.getEmail(), a.getFoodFacility(), a.getCabFacility(),
 				a.getPan() };
-		// JdbcUtil.executeUpdate(sql,params);
-		int rows = jdbcTemplate.update(sql, params);
-		System.out.println(rows);
+		jdbcTemplate.update(sql, params);
 		id = selectId();
 		insertDeductionDetails(id, a);
 		insertLoginDetails(id, a.getDesignation());
@@ -58,24 +56,24 @@ public class AdminDAOImpl implements AdminDAO {
 			rs = pst.executeQuery();
 			if (rs.next()) {
 				id = rs.getInt("current_id");
-				System.out.println(id);
 			}
 		} catch (SQLException e) {
-			throw new DBException(ErrorMessages.Error);
-		}
-		finally
-		{
+			throw new DBException(ErrorMessages.ERROR);
+		} finally {
 			try {
-				pst.close();
-				con.close();
+				if (rs != null) {
+					rs.close();
+					pst.close();
+					con.close();
+				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.debug("error in Seleting id", e);
 			}
 		}
 		return id;
 	}
 
-	public void insertSalaryDetails(int id){
+	public void insertSalaryDetails(int id) {
 		String sql = "insert into final_salary(emp_id)values(?)";
 		jdbcTemplate.update(sql, id);
 	}
@@ -100,79 +98,35 @@ public class AdminDAOImpl implements AdminDAO {
 		int foodDeduction = 0;
 		int cabDeduction = 0;
 		int rows = 0;
-		if (a.getFoodFacility().contentEquals("Y") || a.getFoodFacility().contentEquals("y")) {
-			a.setFoodFacility(FoodandCab.Y.toString());
+		if (a.getFoodFacility().contentEquals("Y")) {
 			foodDeduction = 500;
-		} else
-			a.setFoodFacility(FoodandCab.N.toString());
-		if (a.getCabFacility().contentEquals("Y") || a.getCabFacility().contentEquals("y")) {
-			a.setCabFacility(FoodandCab.Y.toString());
+		} else if (a.getCabFacility().contentEquals("Y")) {
 			cabDeduction = 2000;
-		} else
-			a.setCabFacility(FoodandCab.N.toString());
-		try {
-			rows = jdbcTemplate.update(sql, id, foodDeduction, cabDeduction);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
 		}
+		rows = jdbcTemplate.update(sql, id, foodDeduction, cabDeduction);
 		return rows;
 	}
 
 	public int removeUsers(int empId) throws DBException {
-		Connection con = null;
-		CallableStatement statement = null;
-		int rows = 0;
-		try {
-			con = Connections.connect();
-			statement = con.prepareCall("{call delete_employee(?)}");
-			statement.setInt(1, empId);
-			rows = statement.executeUpdate();
-		} catch (Exception e) {
-			throw new DBException(ErrorMessages.INVALID_COLUMN_INDEX);
-		} finally {
-			try {
-				statement.close();
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return rows;
+
+		jdbcTemplate.update("call delete_employee (?)", empId);
+		return 1;
 	}
 
 	public int calculateLOP() throws DBException {
-		int rows = 0;
 		GetDataUtil get = new GetDataUtil();
-		Connection con = null;
-		CallableStatement statement = null;
-		try {
-			con = Connections.connect();
-			List<Integer> ids = get.getAllId();
-			for (int i : ids) {
-				statement = con.prepareCall("{call calculate_lop(?)}");
-				statement.setInt(1, i);
-				rows = statement.executeUpdate();
-			}
-		} catch (Exception e) {
-			throw new DBException(ErrorMessages.INVALID_COLUMN_INDEX);
-		} finally {
-			try {
-				statement.close();
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		List<Integer> ids = get.getAllId();
+		for (int i : ids) {
+			jdbcTemplate.update("call calculate_lop (?)", i);
 		}
-		return rows;
+		return 1;
 	}
 
 	public int resetPassword(int empId) throws DBException {
 		String sql = "update user_login set password = 'pass123',active = 0 where emp_id = ?";
-		int rows = jdbcTemplate.update(sql, empId);
-		return rows;
+		return jdbcTemplate.update(sql, empId);
 	}
 
-	
 	public List<AdminModel> viewDetails() throws DBException {
 		Connection con = null;
 		List<AdminModel> list = new ArrayList<>();
@@ -196,11 +150,13 @@ public class AdminDAOImpl implements AdminDAO {
 			throw new DBException(e.toString());
 		} finally {
 			try {
-				rs.close();
-				pst.close();
-				con.close();
+				if (rs != null) {
+					rs.close();
+					pst.close();
+					con.close();
+				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.error("error in View Details", e);
 			}
 		}
 		return list;
