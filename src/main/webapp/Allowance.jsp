@@ -85,6 +85,9 @@ label {
 </style>
 </head>
 <body>
+	<center>
+		<h3>Allowance Update</h3>
+	</center>
 	<form action="AddAllowanceServlet" name="details"
 		onsubmit=" return validate()" method="GET">
 		<label for="Reason">ID</label> <input type="text" name="id"

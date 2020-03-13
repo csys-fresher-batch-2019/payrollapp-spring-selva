@@ -7,10 +7,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="LoginStyle.css">
 <title>XYZ Pvt.LTD</title>
-<%
-	String value = (String) session.getAttribute("hello");
-%>
-
 <script type="text/javascript">
 	function validateForm() {
 		var x = document.forms["Loginform"]["username"].value;
@@ -62,12 +58,13 @@
 			</div>
 			<div class="row">
 				<input type="submit" value="submit">
-				<%
-					String result = (String) request.getParameter("result");
-					if (result != null) {
-						out.println("<p style=" + "color:red;" + ">" + result + "</p>");
-					}
-				%>
+				<c:if test="${not empty param.result}">
+				<center>
+					<p>
+						<p style="color:red;">${param.result}</p>
+					</p>
+				</center>
+			</c:if>
 			</div>
 		</form>
 	</div>

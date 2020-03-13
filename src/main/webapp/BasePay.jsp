@@ -84,6 +84,9 @@ label {
 </style>
 </head>
 <body>
+	<center>
+		<h3>Basepay Update</h3>
+	</center>
 	<form action="AddbasePayServlet" name="details"
 		onsubmit="return validate()" method="GET">
 		<label for="Reason">ID</label> <input type="text" name="id" id="value"

@@ -9,61 +9,49 @@ public class HrModel {
 	private String fromDate;
 	private String reasonForLeave;
 	private String toDate;
-
-	public void setId(int id) {
-		this.empId = id;
-	}
-
-	public int getID() {
+	
+	public int getEmpId() {
 		return empId;
 	}
-
-	public void setAllowance(int allowance) {
-		this.allowance = allowance;
+	public void setEmpId(int empId) {
+		this.empId = empId;
 	}
-
 	public int getAllowance() {
 		return allowance;
 	}
-
-	public void setBasePay(int basePay) {
-		this.basePay = basePay;
+	public void setAllowance(int allowance) {
+		this.allowance = allowance;
 	}
-
 	public int getBasePay() {
 		return basePay;
 	}
-
-	public void setPerformanceGrade(int grade) {
-		this.performanceGrade = grade;
+	public void setBasePay(int basePay) {
+		this.basePay = basePay;
 	}
-
 	public int getPerformanceGrade() {
 		return performanceGrade;
 	}
-
-	public void setFromDate(String fDate) {
-		this.fromDate = fDate;
+	public void setPerformanceGrade(int performanceGrade) {
+		this.performanceGrade = performanceGrade;
 	}
-
 	public String getFromDate() {
-		return fromDate.substring(0, 10);
+		return fromDate;
 	}
-
+	public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
+	}
+	public String getReasonForLeave() {
+		return reasonForLeave;
+	}
+	public void setReasonForLeave(String reasonForLeave) {
+		this.reasonForLeave = reasonForLeave;
+	}
+	public String getToDate() {
+		return toDate;
+	}
 	public void setToDate(String toDate) {
 		this.toDate = toDate;
 	}
 
-	public String getToDate() {
-		return toDate.substring(0, 10);
-	}
-
-	public void setReason(String reason) {
-		this.reasonForLeave = reason;
-	}
-
-	public String getReason() {
-		return reasonForLeave;
-	}
-
+	
 }

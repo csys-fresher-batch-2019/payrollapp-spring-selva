@@ -57,10 +57,10 @@ public class HrDAOImpl implements HrDAO {
 			List<HrModel> leaveDetails = new ArrayList<>();
 			while (rs.next()) {
 				HrModel h = new HrModel();
-				h.setId(rs.getInt("emp_id"));
+				h.setEmpId(rs.getInt("emp_id"));
 				h.setFromDate(rs.getString("from_leave_date"));
 				h.setToDate(rs.getString("to_leave_date"));
-				h.setReason(rs.getString("reason"));
+				h.setReasonForLeave(rs.getString("reason"));
 				leaveDetails.add(h);
 			}
 			return leaveDetails;

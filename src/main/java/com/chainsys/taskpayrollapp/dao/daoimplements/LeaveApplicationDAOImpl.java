@@ -35,8 +35,7 @@ public class LeaveApplicationDAOImpl {
 
 	public int leaveStatusUpdate(int eid, String status) {
 		String sql = "update leave_info set status = ? where emp_id = ? and status = 'PENDING'";
-		int rows = jdbcTemplate.update(sql, status, eid);
-		return rows;
+		return jdbcTemplate.update(sql, status, eid);
 	}
 
 	public int leaveCountUpdate(int eid) {

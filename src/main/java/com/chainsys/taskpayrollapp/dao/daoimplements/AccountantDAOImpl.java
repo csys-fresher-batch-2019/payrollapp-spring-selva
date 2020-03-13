@@ -37,8 +37,8 @@ public class AccountantDAOImpl implements AccountantDAO {
 
 	public int calculateIncrement() throws DBException {
 		GetDataUtil get = new GetDataUtil();
-		List<Integer> ids = get.getAllId();
-		for (int i : ids) {
+		List<Integer> empIdList = get.getAllId();
+		for (int i : empIdList) {
 			jdbcTemplate.update("call calculate_increment (?)", i);
 		}
 		return 1;

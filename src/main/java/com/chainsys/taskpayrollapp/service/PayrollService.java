@@ -39,7 +39,7 @@ public class PayrollService {
 	public int addEmployeeDetails(AdminModel a) throws ServiceException {
 		int rows = 0;
 		try {
-			if (user.emailValidation(a.getEmail()) && user.panValidation(a.getPan())) {
+			if (user.emailValidation(a.getEmail()) && user.panValidation(a.getPanNumber())) {
 				rows = ado.addUsers(a);
 				return rows;
 			} else {

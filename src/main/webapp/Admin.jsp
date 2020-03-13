@@ -50,22 +50,34 @@ body {
 }
 
 .act
+
  
+
 button
+
+
 :not
+
  
+
 (
 :last-child
+
  
+
 )
 {
 border-bottom
+
+
 :
+
  
+
 none
+
+
 ; /* Prevent double borders */
-
-
 }
 /* Add a background color on hover */
 .act button:hover {
@@ -105,27 +117,25 @@ none
 }
 </style>
 </head>
-<%
-	int EmpId = (int) session.getAttribute("value");
-	String desg = (String) session.getAttribute("desg");
-%>
+
 <body>
 	<div class="element">
 		<div id="div1">
-			<%
-				String result = (String) request.getParameter("result");
-				if (result != null) {
-					out.println("<center><p><font size=6" + ">" + result + "</font></p></center>");
-				}
-			%>
+			<c:if test="${not empty param.result}">
+				<center>
+					<p>
+						<font size=6> ${param.result}</font>
+					</p>
+				</center>
+			</c:if>
 		</div>
 		<div class="container">
 			<div class="box">
 				<center>
 					<i class="fa fa-user-circle-o"
 						style="font-size: 120px; color: #FFFFFF"></i>
-					<h4 style="color: #FFFFFF"><%=desg%></h4>
-					<h5 style="color: #FFFFFF"><%=EmpId%></h5>
+					<h4 style="color: #FFFFFF">${designation}</h4>
+					<h5 style="color: #FFFFFF">${value}</h5>
 				</center>
 			</div>
 			<div class="act">
@@ -139,7 +149,7 @@ none
 				<button id="c">Reset Password</button>
 				<button id="d">Apply Leave</button>
 				<button>
-					<a href="salary<%=EmpId%>.pdf">View Pay Slip</a>
+					<a href="salary${value}.pdf">View Pay Slip</a>
 				</button>
 				<button id="e">Swipe</button>
 			</div>

@@ -6,9 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="LoginStyle.css">
 <title>XYZ Pvt.LTD</title>
-<%
-	int value = (int) session.getAttribute("value");
-%>
+
 <script type="text/javascript">
 	function validateForm() {
 		var y = document.forms["Loginform"]["npassword"].value;

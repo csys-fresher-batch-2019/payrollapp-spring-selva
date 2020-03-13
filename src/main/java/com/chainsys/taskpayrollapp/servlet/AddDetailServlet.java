@@ -36,9 +36,9 @@ public class AddDetailServlet extends HttpServlet {
 		String mail = request.getParameter("Email");
 		admin.setEmpName(name);
 		admin.setDesignation(desg);
-		admin.setPan(pan);
-		admin.setFoodFacility(food);
-		admin.setCabFacility(cab);
+		admin.setPanNumber(pan);
+		admin.setFoodSubscription(food);
+		admin.setCabSubscription(cab);
 		admin.setEmail(mail);
 		try {
 			rows = service.addEmployeeDetails(admin);

@@ -38,7 +38,6 @@ function validate()
 <script>
     function loadProducts() {
         var id = document.getElementById("value").value;
-        console.log(id);
         event.preventDefault()
         //Ajax call for rest api
         let url = "http://localhost:8089/api/displayid";
@@ -84,6 +83,7 @@ label {
 </style>
 </head>
 <body>
+	<center><h3> Grade Update</h3></center>
 	<form action="AddgradeServlet" name="details"
 		onsubmit="return validate()" method="GET">
 		<label for="Reason">ID</label> <input type="text" name="id" id="value"

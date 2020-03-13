@@ -31,8 +31,8 @@ public class AdminDAOImpl implements AdminDAO {
 		String sql = "insert into employee(emp_id,emp_name,designation,"
 				+ " email,food_subscription,cab_subscription,pan_number)" + "values(emp_id_seq.nextval,?,?,?,?,?,?)";
 		int id = 0;
-		Object[] params = { a.getEmpName(), a.getDesignation(), a.getEmail(), a.getFoodFacility(), a.getCabFacility(),
-				a.getPan() };
+		Object[] params = { a.getEmpName(), a.getDesignation(), a.getEmail(), a.getFoodSubscription(), a.getCabSubscription(),
+				a.getPanNumber() };
 		jdbcTemplate.update(sql, params);
 		id = selectId();
 		insertDeductionDetails(id, a);
@@ -98,9 +98,9 @@ public class AdminDAOImpl implements AdminDAO {
 		int foodDeduction = 0;
 		int cabDeduction = 0;
 		int rows = 0;
-		if (a.getFoodFacility().contentEquals("Y")) {
+		if (a.getFoodSubscription().contentEquals("Y")) {
 			foodDeduction = 500;
-		} else if (a.getCabFacility().contentEquals("Y")) {
+		} else if (a.getCabSubscription().contentEquals("Y")) {
 			cabDeduction = 2000;
 		}
 		rows = jdbcTemplate.update(sql, id, foodDeduction, cabDeduction);
@@ -142,7 +142,7 @@ public class AdminDAOImpl implements AdminDAO {
 				ad.setEmpId(rs.getInt("emp_id"));
 				ad.setEmpName(rs.getString("emp_name"));
 				ad.setEmail(rs.getString("email"));
-				ad.setPan(rs.getString("pan_number"));
+				ad.setPanNumber(rs.getString("pan_number"));
 				ad.setDesignation(rs.getString("designation"));
 				list.add(ad);
 			}

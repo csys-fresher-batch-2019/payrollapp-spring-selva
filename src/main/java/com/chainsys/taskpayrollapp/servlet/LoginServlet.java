@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
 				String result = "Not a user";
 				desg = loginObject.login(id, password);
 				HttpSession sess = request.getSession();
-				sess.setAttribute("desg", desg);
+				sess.setAttribute("designation", desg);
 				HttpSession session = request.getSession();
 				session.setAttribute("value", id);
 				if (desg.contentEquals(result)) {

@@ -2,6 +2,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -34,35 +35,34 @@ th {
 		<h3>Employee Details</h3>
 	</center>
 	<div class="container">
-		<%
-			ArrayList<AdminModel> list = new ArrayList<AdminModel>();
-			list = (ArrayList) request.getAttribute("EmployeeDetails");
-			if (list.size() > 0) {
-		%>
 		<form action="AcceptLeaveServlet">
-			<table cellspacing="40">
-				<tr>
-					<th>Employee Id</th>
-					<th>Employee name</th>
-					<th>Designation</th>
-					<th>Email Address</th>
-					<th>Pan Number</th>
-				</tr>
-				<%
-					for (AdminModel h : list) {
-				%>
-				<tr>
-					<td><%=h.getEmpId()%></td>
-					<td><%=h.getEmpName()%></td>
-					<td><%=h.getDesignation()%></td>
-					<td><%=h.getEmail()%></td>
-					<td><%=h.getPan()%></td>
-				</tr>
-				<%
-					}
-					}
-				%>
-			</table>
+			<c:choose>
+				<c:when test="${empty EmployeeDetails}">
+					<center>
+						<h3>No Details Found</h3>
+					</center>
+				</c:when>
+				<c:otherwise>
+					<table cellspacing="40">
+						<tr>
+							<th>Employee Id</th>
+							<th>Employee name</th>
+							<th>Designation</th>
+							<th>Email Address</th>
+							<th>Pan Number</th>
+						</tr>
+						<c:forEach items="${EmployeeDetails}" var="e">
+							<tr>
+								<td>${e.empId}</td>
+								<td>${e.empName}</td>
+								<td>${e.designation}</td>
+								<td>${e.email}</td>
+								<td>${e.panNumber}</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</c:otherwise>
+			</c:choose>
 		</form>
 	</div>
 </body>

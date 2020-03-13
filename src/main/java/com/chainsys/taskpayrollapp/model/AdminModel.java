@@ -12,60 +12,47 @@ public class AdminModel {
 	private String cabSubscription;
 	private String email;
 	private String panNumber;
-
-	public String getPan() {
-		return panNumber;
-	}
-
-	public void setPan(String pan) {
-		this.panNumber = pan;
-	}
-
 	public int getEmpId() {
 		return empId;
 	}
-
 	public void setEmpId(int empId) {
 		this.empId = empId;
 	}
-
 	public String getEmpName() {
 		return empName;
 	}
-
 	public void setEmpName(String empName) {
-		this.empName = empName.trim();
+		this.empName = empName;
 	}
-
 	public String getDesignation() {
 		return designation;
 	}
-
 	public void setDesignation(String designation) {
-		this.designation = designation.trim();
+		this.designation = designation;
 	}
-
-	public String getFoodFacility() {
+	public String getFoodSubscription() {
 		return foodSubscription;
 	}
-
-	public void setFoodFacility(String foodFacility) {
-		this.foodSubscription = foodFacility.trim();
+	public void setFoodSubscription(String foodSubscription) {
+		this.foodSubscription = foodSubscription;
 	}
-
-	public String getCabFacility() {
+	public String getCabSubscription() {
 		return cabSubscription;
 	}
-
-	public void setCabFacility(String cabFacility) {
-		this.cabSubscription = cabFacility.trim();
+	public void setCabSubscription(String cabSubscription) {
+		this.cabSubscription = cabSubscription;
 	}
-
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
-		this.email = email.trim();
+		this.email = email;
 	}
-}
+	public String getPanNumber() {
+		return panNumber;
+	}
+	public void setPanNumber(String panNumber) {
+		this.panNumber = panNumber;
+	}
+
+	}

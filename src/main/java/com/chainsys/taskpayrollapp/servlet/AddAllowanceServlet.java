@@ -32,10 +32,10 @@ public class AddAllowanceServlet extends HttpServlet {
 			int rows = ps.addCredit(eid, allowance);
 			if (rows == 1) {
 				String result = "Updated Successfully";
-				response.sendRedirect("hr.jsp?result=" + result);
+				response.sendRedirect("hr.jsp?result="+result);
 			} else {
 				String result = "Updates Failed";
-				response.sendRedirect("hr.jsp?result=" + result);
+				response.sendRedirect("hr.jsp?result="+result);
 			}
 		} catch (IOException | ServiceException | NumberFormatException e) {
 			logger.error("Error in Accept Leave Servlet", e);
