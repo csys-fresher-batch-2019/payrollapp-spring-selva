@@ -39,7 +39,7 @@ function validate()
     function loadProducts() {
         var id = document.getElementById("value").value;
         console.log(id);
-        event.preventDefault()
+        event.preventDefault();
         //Ajax call for rest api
         let url = "http://localhost:8089/api/displayid";
         //Ajax call for rest api

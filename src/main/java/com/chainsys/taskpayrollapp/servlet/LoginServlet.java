@@ -45,16 +45,12 @@ public class LoginServlet extends HttpServlet {
 			} else {
 				String res = "activate";
 				String resu = "wrong password";
-				String result = "Not a user";
 				desg = loginObject.login(id, password);
 				HttpSession sess = request.getSession();
 				sess.setAttribute("designation", desg);
 				HttpSession session = request.getSession();
 				session.setAttribute("value", id);
-				if (desg.contentEquals(result)) {
-					String display = "Not a user, Please contact admin!";
-					response.sendRedirect("login.jsp?result=" + display);
-				} else if (desg.contentEquals(resu)) {
+				if (desg.contentEquals(resu)) {
 					String display = "Invalid Username or Password!!";
 					response.sendRedirect("login.jsp?result=" + display);
 				} else if (desg.contentEquals(res)) {

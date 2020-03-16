@@ -9,25 +9,43 @@
 <title>XYZ Pvt.LTD</title>
 <script type="text/javascript">
 	function validateForm() {
-		var x = document.forms["Loginform"]["username"].value;
-		var y = document.forms["Loginform"]["password"].value;
-		if (x == "") {
+		var username = document.forms["Loginform"]["username"].value;
+		var password = document.forms["Loginform"]["password"].value;
+		if (username == "") {
 			alert("Username must be filled out");
 			return false;
 		}
-		if (isNaN(x)) {
+		if (isNaN(username)) {
 			alert('Not a Valid Id');
 			return false;
 		}
-		if (y == "") {
+		if (password == "") {
 			alert("Password must be filled out");
 			return false;
 		}
-		if (x < 1000) {
-			alert("Not a valid id");
-			return false;
-		}
+		event.preventDefault()
+	    //Ajax call for rest api
+	    let url = "http://localhost:8089/api/displayid";
+	    //Ajax call for rest api
+	    $.getJSON(url, function (data) {
+	        for (var i of data) {
+	            if (i == username) {
+	            	document.forms["Loginform"].submit();
+	            	return true;
+	            } else {
+	               continue;
+	            }
+	        }
+	        alert("Not an employee ID");
+	    });	
 	}
+</script>
+<script type="text/javascript">
+function loadProducts() {
+    var id = document.forms["Loginform"]["username"].value;
+    
+}
+
 </script>
 </head>
 <body>
@@ -59,14 +77,16 @@
 			<div class="row">
 				<input type="submit" value="submit">
 				<c:if test="${not empty param.result}">
-				<center>
-					<p>
-						<p style="color:red;">${param.result}</p>
-					</p>
-				</center>
-			</c:if>
+					<center>
+						<p>
+						<p style="color: red;">${param.result}</p>
+						</p>
+					</center>
+				</c:if>
 			</div>
 		</form>
 	</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </body>
 </html>
