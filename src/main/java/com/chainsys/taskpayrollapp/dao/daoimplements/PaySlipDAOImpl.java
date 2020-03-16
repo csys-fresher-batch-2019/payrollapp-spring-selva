@@ -17,6 +17,7 @@ import com.chainsys.taskpayrollapp.util.GetDataUtil;
 
 public class PaySlipDAOImpl {
 	private static final Logger logger = LoggerFactory.getLogger(PaySlipDAOImpl.class);
+
 	public int employeeDetails() throws DBException {
 		GetDataUtil get = new GetDataUtil();
 		GeneratePaySlip gen = new GeneratePaySlip();
@@ -41,8 +42,8 @@ public class PaySlipDAOImpl {
 				rs = pst.executeQuery();
 				while (rs.next()) {
 					PaySlipModel pm = new PaySlipModel();
-					pm.setId(rs.getInt("emp_id"));
-					pm.setName(rs.getString("emp_name"));
+					pm.setEmpId(rs.getInt("emp_id"));
+					pm.setEmpName(rs.getString("emp_name"));
 					pm.setBasePay(rs.getInt("basepay"));
 					pm.setPerformanceGrade(rs.getInt("performance_grade"));
 					pm.setSalaryIncrement(rs.getInt("salary_increment"));
@@ -64,7 +65,7 @@ public class PaySlipDAOImpl {
 				pst.close();
 				con.close();
 			} catch (SQLException e) {
-				logger.error("Error in Payslip Generation",e);
+				logger.error("Error in Payslip Generation", e);
 			}
 		}
 		return workDone;

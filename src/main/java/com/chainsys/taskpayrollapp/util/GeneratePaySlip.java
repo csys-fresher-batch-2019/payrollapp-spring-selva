@@ -20,11 +20,11 @@ public class GeneratePaySlip {
 			table.addHeaderCell("-CATEGORY-");
 			table.addHeaderCell("-DETAILS-");
 			table.addCell("Employee ID ");
-			table.addCell("" + obj.getId());
+			table.addCell("" + obj.getEmpId());
 			table.addCell("Employee Name");
-			table.addCell(obj.getName());
+			table.addCell(obj.getEmpName());
 			table.addCell("BasePay");
-			table.addCell("Rs. " + obj.getSalary());
+			table.addCell("Rs. " + obj.getSalaryIncrement());
 			table.addCell("Performance_grade");
 			table.addCell("" + obj.getPerformanceGrade());
 			table.addCell("Salary Increment");

@@ -1,5 +1,9 @@
 package com.chainsys.taskpayrollapp.dao.daoimplements;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,14 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import com.chainsys.taskpayrollapp.model.AdminModel;
 import com.chainsys.taskpayrollapp.dao.AdminDAO;
 import com.chainsys.taskpayrollapp.exception.DBException;
+import com.chainsys.taskpayrollapp.model.AdminModel;
 import com.chainsys.taskpayrollapp.util.Connections;
 import com.chainsys.taskpayrollapp.util.ErrorMessages;
 import com.chainsys.taskpayrollapp.util.GetDataUtil;
@@ -27,12 +26,13 @@ public class AdminDAOImpl implements AdminDAO {
 	private JdbcTemplate jdbcTemplate;
 	private static final Logger logger = LoggerFactory.getLogger(AdminDAOImpl.class);
 
+	@Override
 	public int addUsers(AdminModel a) throws DBException {
 		String sql = "insert into employee(emp_id,emp_name,designation,"
 				+ " email,food_subscription,cab_subscription,pan_number)" + "values(emp_id_seq.nextval,?,?,?,?,?,?)";
 		int id = 0;
-		Object[] params = { a.getEmpName(), a.getDesignation(), a.getEmail(), a.getFoodSubscription(), a.getCabSubscription(),
-				a.getPanNumber() };
+		Object[] params = { a.getEmpName(), a.getDesignation(), a.getEmail(), a.getFoodSubscription(),
+				a.getCabSubscription(), a.getPanNumber() };
 		jdbcTemplate.update(sql, params);
 		id = selectId();
 		insertDeductionDetails(id, a);
@@ -107,12 +107,14 @@ public class AdminDAOImpl implements AdminDAO {
 		return rows;
 	}
 
+	@Override
 	public int removeUsers(int empId) throws DBException {
 
 		jdbcTemplate.update("call delete_employee (?)", empId);
 		return 1;
 	}
 
+	@Override
 	public int calculateLOP() throws DBException {
 		GetDataUtil get = new GetDataUtil();
 		List<Integer> ids = get.getAllId();
@@ -122,11 +124,13 @@ public class AdminDAOImpl implements AdminDAO {
 		return 1;
 	}
 
+	@Override
 	public int resetPassword(int empId) throws DBException {
 		String sql = "update user_login set password = 'pass123',active = 0 where emp_id = ?";
 		return jdbcTemplate.update(sql, empId);
 	}
 
+	@Override
 	public List<AdminModel> viewDetails() throws DBException {
 		Connection con = null;
 		List<AdminModel> list = new ArrayList<>();
