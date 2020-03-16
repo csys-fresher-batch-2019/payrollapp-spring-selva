@@ -46,7 +46,7 @@ public class GeneratePaySlip {
 			doc.add(table);
 			doc.close();
 		} catch (FileNotFoundException e) {
-			throw new DBException(e.toString());
+			throw new DBException(ErrorMessages.ERROR, e);
 		}
 		return 1;
 	}

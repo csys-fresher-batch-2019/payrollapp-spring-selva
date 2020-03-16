@@ -14,7 +14,7 @@ public class Connections {
 			// return DriverManager.getConnection("jdbc:oracle:thin:@
 			// 13.235.147.120:1521:XE", "system", "oracle");
 		} catch (ClassNotFoundException | SQLException e) {
-			throw new DBException(e.toString());
+			throw new DBException(ErrorMessages.ERROR, e);
 		}
 	}
 }

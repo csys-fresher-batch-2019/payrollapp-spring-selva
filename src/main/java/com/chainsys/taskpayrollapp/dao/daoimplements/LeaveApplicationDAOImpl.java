@@ -60,7 +60,7 @@ public class LeaveApplicationDAOImpl {
 				email = rs.getString("email");
 			}
 		} catch (SQLException e) {
-			throw new DBException(ErrorMessages.ERROR);
+			throw new DBException(ErrorMessages.ERROR, e);
 		} finally {
 			try {
 				if (rs != null) {

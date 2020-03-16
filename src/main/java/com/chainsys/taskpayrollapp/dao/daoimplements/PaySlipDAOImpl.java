@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.model.PaySlipModel;
 import com.chainsys.taskpayrollapp.util.Connections;
+import com.chainsys.taskpayrollapp.util.ErrorMessages;
 import com.chainsys.taskpayrollapp.util.GeneratePaySlip;
 import com.chainsys.taskpayrollapp.util.GetDataUtil;
 
@@ -57,8 +58,8 @@ public class PaySlipDAOImpl {
 					workDone = gen.paySlip(pm, rs.getInt("emp_id"));
 				}
 			}
-		} catch (Exception e) {
-			throw new DBException(e.toString());
+		} catch (SQLException e) {
+			throw new DBException(ErrorMessages.ERROR, e);
 		} finally {
 			try {
 				rs.close();

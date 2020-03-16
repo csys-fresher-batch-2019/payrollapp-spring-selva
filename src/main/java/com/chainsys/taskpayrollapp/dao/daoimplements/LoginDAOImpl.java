@@ -13,11 +13,14 @@ import org.springframework.stereotype.Repository;
 
 import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.util.Connections;
+import com.chainsys.taskpayrollapp.util.ErrorMessages;
+
 @Repository
 public class LoginDAOImpl {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	private static final Logger logger = LoggerFactory.getLogger(LoginDAOImpl.class);
+
 	public String login(int empId, String password) throws DBException {
 		String designation = null;
 		Connection con = null;
@@ -49,7 +52,7 @@ public class LoginDAOImpl {
 				return res2;// if user not found
 			}
 		} catch (SQLException e) {
-			throw new DBException(e.toString());
+			throw new DBException(ErrorMessages.ERROR, e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -58,7 +61,7 @@ public class LoginDAOImpl {
 					con.close();
 				}
 			} catch (SQLException e) {
-				logger.error("Error in Login",e);
+				logger.error("Error in Login", e);
 			}
 		}
 	}

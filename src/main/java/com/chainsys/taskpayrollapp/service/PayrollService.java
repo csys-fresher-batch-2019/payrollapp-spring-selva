@@ -6,13 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.chainsys.taskpayrollapp.dao.daoimplements.AdminDAOImpl;
 import com.chainsys.taskpayrollapp.dao.daoimplements.AccountantDAOImpl;
+import com.chainsys.taskpayrollapp.dao.daoimplements.AdminDAOImpl;
 import com.chainsys.taskpayrollapp.dao.daoimplements.HrDAOImpl;
+import com.chainsys.taskpayrollapp.dao.daoimplements.LeaveApplicationDAOImpl;
 import com.chainsys.taskpayrollapp.dao.daoimplements.LogMonitorDAOImpl;
 import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.exception.ServiceException;
-import com.chainsys.taskpayrollapp.dao.daoimplements.LeaveApplicationDAOImpl;
 import com.chainsys.taskpayrollapp.model.AdminModel;
 import com.chainsys.taskpayrollapp.model.HrModel;
 import com.chainsys.taskpayrollapp.model.LeaveApplicationModel;
@@ -46,7 +46,7 @@ public class PayrollService {
 				return 0;
 			}
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 	}
 
@@ -62,7 +62,7 @@ public class PayrollService {
 				return 0;
 			}
 		} catch (DBException e) {
-			throw new ServiceException(ErrorMessages.ERROR);
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 	}
 
@@ -71,7 +71,7 @@ public class PayrollService {
 		try {
 			rows = ado.calculateLOP();
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 		return rows;
 	}
@@ -87,7 +87,7 @@ public class PayrollService {
 				return 0;
 			}
 		} catch (DBException e) {
-			throw new ServiceException(ErrorMessages.ERROR);
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 		return rows;
 	}
@@ -97,7 +97,7 @@ public class PayrollService {
 		try {
 			list = ado.viewDetails();
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 		return list;
 	}
@@ -109,7 +109,7 @@ public class PayrollService {
 		try {
 			rows = aco.calculatePF();
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 		return rows;
 	}
@@ -119,7 +119,7 @@ public class PayrollService {
 		try {
 			rows = aco.calculateIncrement();
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 		return rows;
 	}
@@ -129,7 +129,7 @@ public class PayrollService {
 		try {
 			rows = aco.markAttendance();
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 		return rows;
 	}
@@ -139,7 +139,7 @@ public class PayrollService {
 		try {
 			rows = aco.calculatesalary();
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 		return rows;
 	}
@@ -149,7 +149,7 @@ public class PayrollService {
 		try {
 			rows = aco.generatePaySlip();
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 		return rows;
 	}
@@ -167,7 +167,7 @@ public class PayrollService {
 				rows = 0;
 			}
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 		return rows;
 	}
@@ -183,7 +183,7 @@ public class PayrollService {
 				rows = 0;
 			}
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 		return rows;
 	}
@@ -199,7 +199,7 @@ public class PayrollService {
 				rows = 0;
 			}
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 		return rows;
 	}
@@ -209,7 +209,7 @@ public class PayrollService {
 		try {
 			list = hdo.viewLeaveApplication();
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 		return list;
 	}
@@ -227,7 +227,7 @@ public class PayrollService {
 				rows = 0;
 			}
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 		return rows;
 	}
@@ -253,11 +253,11 @@ public class PayrollService {
 						"Leave Application " + status, status, id);
 				if (result) {
 					rows = 1;
-				} 
+				}
 			}
 			return rows;
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 	}
 
@@ -278,7 +278,7 @@ public class PayrollService {
 			}
 
 		} catch (DBException e) {
-			throw new ServiceException(e.toString());
+			throw new ServiceException(ErrorMessages.ERROR, e);
 		}
 		return rows;
 	}

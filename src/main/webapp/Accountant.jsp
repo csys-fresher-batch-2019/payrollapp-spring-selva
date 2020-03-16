@@ -39,50 +39,10 @@ body {
 	margin-top: 20px;
 }
 
-.btn-group
-
-
- 
-
-
-button
-
-
-
-
-:not
-
-
- 
-
-
-(
-:last-child
-
-
- 
-
-
-)
-{
-border-bottom
-
-
-
-
-:
-
-
- 
-
-
-none
-
-
-
-
-; /* Prevent double borders */
+.btn-group button:not (:last-child ) {
+	border-bottom: none; /* Prevent double borders */
 }
+
 .btn-group button:hover {
 	background-color: #1F476D;
 }

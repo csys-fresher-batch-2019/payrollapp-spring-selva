@@ -58,7 +58,7 @@ public class AdminDAOImpl implements AdminDAO {
 				id = rs.getInt("current_id");
 			}
 		} catch (SQLException e) {
-			throw new DBException(ErrorMessages.ERROR);
+			throw new DBException(ErrorMessages.ERROR, e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -150,8 +150,8 @@ public class AdminDAOImpl implements AdminDAO {
 				ad.setDesignation(rs.getString("designation"));
 				list.add(ad);
 			}
-		} catch (Exception e) {
-			throw new DBException(e.toString());
+		} catch (SQLException e) {
+			throw new DBException(ErrorMessages.INSERTION_FAILED, e);
 		} finally {
 			try {
 				if (rs != null) {

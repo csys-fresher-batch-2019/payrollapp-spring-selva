@@ -17,6 +17,7 @@ public class GetDataUtil {
 	public static final String EMAILID = "email";
 	public static final String PANNUMBER = "pan_number";
 	private static final Logger logger = LoggerFactory.getLogger(GetDataUtil.class);
+
 	public List<String> getAllEmail() throws DBException {
 		String sql = "select email from employee";
 		Connection con = null;
@@ -31,16 +32,16 @@ public class GetDataUtil {
 				emails.add(result.getString(EMAILID));
 			}
 		} catch (SQLException e) {
-			throw new DBException(ErrorMessages.ERROR);
+			throw new DBException(ErrorMessages.ERROR, e);
 		} finally {
 			try {
-				if(result != null) {
-				result.close();
-				pst.close();
-				con.close();
+				if (result != null) {
+					result.close();
+					pst.close();
+					con.close();
 				}
 			} catch (SQLException e) {
-				logger.error("Error in Get all mail",e);
+				logger.error("Error in Get all mail", e);
 			}
 		}
 		return emails;
@@ -60,16 +61,16 @@ public class GetDataUtil {
 				panNumber.add(result.getString(PANNUMBER));
 			}
 		} catch (SQLException e) {
-			throw new DBException(ErrorMessages.ERROR);
+			throw new DBException(ErrorMessages.ERROR, e);
 		} finally {
 			try {
-				if(result != null) {
-				result.close();
-				pst.close();
-				con.close();
+				if (result != null) {
+					result.close();
+					pst.close();
+					con.close();
 				}
 			} catch (SQLException e) {
-				logger.error("Error",e);
+				logger.error("Error", e);
 			}
 		}
 		return panNumber;
@@ -89,16 +90,16 @@ public class GetDataUtil {
 				ids.add(result.getInt(EMPID));
 			}
 		} catch (SQLException e) {
-			throw new DBException(ErrorMessages.ERROR);
+			throw new DBException(ErrorMessages.ERROR, e);
 		} finally {
 			try {
-				if(result != null) {
-				result.close();
-				pst.close();
-				con.close();
+				if (result != null) {
+					result.close();
+					pst.close();
+					con.close();
 				}
 			} catch (SQLException e) {
-				logger.error("Error",e);
+				logger.error("Error", e);
 			}
 
 		}

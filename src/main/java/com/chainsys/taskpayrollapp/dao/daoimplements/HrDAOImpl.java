@@ -17,6 +17,7 @@ import com.chainsys.taskpayrollapp.dao.HrDAO;
 import com.chainsys.taskpayrollapp.exception.DBException;
 import com.chainsys.taskpayrollapp.model.HrModel;
 import com.chainsys.taskpayrollapp.util.Connections;
+import com.chainsys.taskpayrollapp.util.ErrorMessages;
 
 @Repository
 
@@ -25,11 +26,13 @@ public class HrDAOImpl implements HrDAO {
 	private JdbcTemplate jdbcTemplate;
 	private static final Logger logger = LoggerFactory.getLogger(HrDAOImpl.class);
 
+	@Override
 	public int addGrade(int id, int grade) {
 		String sql = "update employee set performance_grade = ? where emp_id = ?";
 		return jdbcTemplate.update(sql, grade, id);
 	}
 
+	@Override
 	public int addBasepay(int id, int basepay) {
 		int rows = 0;
 		String sql = "update employee set basepay = ? where emp_id = ?";
@@ -37,6 +40,7 @@ public class HrDAOImpl implements HrDAO {
 		return rows;
 	}
 
+	@Override
 	public int addCredit(int allowance, int id) {
 		int rows = 0;
 		String sql = "update credits set allowance = ? where emp_id = ?";
@@ -44,6 +48,7 @@ public class HrDAOImpl implements HrDAO {
 		return rows;
 	}
 
+	@Override
 	public List<HrModel> viewLeaveApplication() throws DBException {
 		String sql = "select li.emp_id,from_leave_date,to_leave_date,reason from leave_info li "
 				+ " inner join employee e on e.emp_id=li.emp_id and e.designation !='HR'and li.status='PENDING' ";
@@ -65,7 +70,7 @@ public class HrDAOImpl implements HrDAO {
 			}
 			return leaveDetails;
 		} catch (SQLException e) {
-			throw new DBException(e.toString());
+			throw new DBException(ErrorMessages.ERROR, e);
 		} finally {
 			try {
 				if (rs != null) {
