@@ -1,16 +1,13 @@
-
 create sequence emp_id_seq start with 1000 increment by 1;
-
-
 
 CREATE TABLE employee(
 emp_id  number not null,
 emp_name varchar2(50) not null,
 designation varchar2(50) not null,
 email varchar(50) unique,
-performance_grade number check(performance_grade > 0),
-leaves_taken number,
-basepay number,
+performance_grade number default 1 check(performance_grade > 0),
+leaves_taken number default 0,
+basepay number default 0,
 total_leaves number default 12,
 food_subscription char default 'N',
 cab_subscription char default 'N',
@@ -22,56 +19,44 @@ constraint cab_cq check(cab_subscription in('Y','N'))
 );
 
 
-
-
 create table deductions(
 emp_id number not null,
 food_deduction number,
 cab_deduction number,
-loss_of_pay number,
-provident_fund number,
+loss_of_pay number default 0 not null,
+provident_fund number default 0 not null,
 constraint empl_id_fk foreign key(emp_id) references employee(emp_id)
 );
 
 
-
 create table credits(
 emp_id number not null,
-allowance number,
-salary_increment number,
+allowance number default 0 not null,
+salary_increment number default 0 not null,
 constraint emp_id_fk foreign key(emp_id) references employee(emp_id));
 
 
-
 create table final_salary(
-emp_id number not null,
-salary_to_be_credited number,
+emp_id number default 0 not null,
+salary_to_be_credited number default 0 not null,
 constraint emp_id_key foreign key(emp_id) references employee(emp_id)
 );
-
-
 
 
 create table biometrices(
 emp_id number not null,
 login_time timestamp,
 logout_time timestamp,
-swipe_count number default 0,
+swipe_count number default 0 not null,
 constraint emp_id_fkey foreign key(emp_id) references employee(emp_id)
 );
 
-
-
-
 create table user_login(
 emp_id number,
-passwd varchar2(20),
+password varchar2(20) default 'pass123',
 designation varchar2(20),
 active number default 0
 );
-
-
-
 
 create table leave_info(
 emp_id number,
@@ -83,8 +68,7 @@ status varchar2(20) default 'PENDING'
 
 
 
-
-create or replace procedure entry_gate(employee_id in number)
+create or replace procedure bio_entry(employee_id in number)
 as
 swiping number;
 begin
@@ -95,7 +79,7 @@ begin
             update biometrices set logout_time = systimestamp where emp_id = employee_id;
         end if;
     commit;
-end entry_gate;
+end bio_entry;
 
 
 
@@ -118,20 +102,19 @@ end calculate_salary;
 
 
 
-
-
 create or replace procedure attendance_check(employee_id in number )
 as
 present_hour number;
 begin
         select extract(hour from diff) into present_hour from ( select (logout_time - login_time) diff from biometrices where emp_id = employee_id);
-        if(present_hour = 0) 
+        if(present_hour < 1) 
         then 
             update employee set leaves_taken = leaves_taken+1,total_leaves = total_leaves-1 where emp_id = employee_id;
         end if;
 end attendance_check;
 
-create or replace procedure calculate_pf(employee_id in number)
+
+    create or replace procedure calculate_pf(employee_id in number)
 as
 
 v_pf number;
@@ -160,3 +143,33 @@ begin
 
 end calculate_increment;
 
+
+create or replace procedure calculate_lop(employee_id in number)
+as
+v_leaves_taken number;
+v_total_leaves number;
+v_basepay number;
+v_lop_per_day number;
+v_lop number;
+begin
+    select leaves_taken,basepay into v_leaves_taken,v_basepay from employee where emp_id = employee_id;
+    select round(v_basepay / 30,-1) into v_lop_per_day from  dual;
+    if(v_leaves_taken > 12) 
+    then
+        v_total_leaves := v_leaves_taken-12;
+        v_lop := v_total_leaves * v_lop_per_day;
+        update deductions set loss_of_pay = v_lop where emp_id = employee_id;
+    end if;
+end calculate_lop;
+
+
+create or replace procedure delete_employee(employee_id in number)
+as
+begin
+		delete deductions where emp_id = employee_id;
+		delete user_login where emp_id = employee_id;
+		delete biometrices where emp_id = employee_id;
+		delete final_salary where emp_id = employee_id;
+        delete credits where emp_id = employee_id;
+        delete employee where emp_id = employee_id;
+end delete_employee;
