@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import com.chainsys.taskpayrollapp.exception.DBException;
 
 public class Connections {
+
+	private Connections() {
+	}
+
 	public static Connection connect() throws DBException {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");

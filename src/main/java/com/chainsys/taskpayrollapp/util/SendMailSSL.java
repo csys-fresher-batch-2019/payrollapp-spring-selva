@@ -17,6 +17,10 @@ import javax.mail.internet.MimeMultipart;
 import com.chainsys.taskpayrollapp.exception.DBException;
 
 public class SendMailSSL {
+
+	private SendMailSSL() {
+	}
+
 	public static boolean send(final String from, final String password, String to, String sub, String msg, int id)
 			throws DBException {
 

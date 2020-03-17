@@ -131,4 +131,32 @@ begin
         end if;
 end attendance_check;
 
+create or replace procedure calculate_pf(employee_id in number)
+as
+
+v_pf number;
+v_basepay number;
+
+begin
+        select basepay into v_basepay from employee where emp_id = employee_id;
+        select round(v_basepay * (0.15),-1) into v_pf from  dual;
+        update deductions set provident_fund = v_pf where emp_id = employee_id;
+
+end calculate_pf;
+
+create or replace procedure calculate_increment(employee_id in number)
+as
+
+v_salary number;
+v_increment number;
+v_basepay number;
+v_grade number;
+
+begin
+        select basepay,performance_grade into v_basepay,v_grade from employee where emp_id = employee_id;
+        select round(v_basepay * (0.2),-1) into v_salary from  dual;
+        v_increment := v_salary * v_grade;
+        update credits set salary_increment = v_increment where emp_id = employee_id;
+
+end calculate_increment;
 

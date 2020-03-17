@@ -13,7 +13,7 @@ import com.chainsys.taskpayrollapp.util.GetDataUtil;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("api")
-public class DesignationController {
+public class DataController {
 
 	@GetMapping("/displaymail")
 	public List<String> getEmail() throws DBException  {
